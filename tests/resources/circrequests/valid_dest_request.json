@@ -1,0 +1,13 @@
+{
+  "requests": [
+    {
+      "requestid": "test-1",
+      "request_type": "PYR",
+      "barcode": "31430059472292",
+      "stop": "Hornbake",
+      "requestor": "Test User",
+      "patron_id": "test@example.org",
+      "details": "Test request, please ignore."
+    }
+  ]
+}

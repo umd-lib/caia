@@ -70,6 +70,8 @@ setup(
     # For an analysis of "install_requires" vs pip's requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
     install_requires=[
+        'python-dotenv',
+        'requests'
     ],
     python_requires='>=3.8',
 
@@ -81,7 +83,7 @@ setup(
     # projects.
     extras_require={  # Optional
        'dev': ['pycodestyle'],
-       'test': ['pytest'],
+       'test': ['pytest', 'mbtest'],
     },
 
     # If there are data files included in your packages that need to be
