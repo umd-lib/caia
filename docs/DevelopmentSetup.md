@@ -82,6 +82,15 @@ the following command:
 > pytest
 ```
 
+## "invoke" Task Runner
+
+The "invoke" task runner is available for performing development environment
+clean up tasks.
+
+To see the list of available tasks, run:
+
+> invoke --list
+
 ## Code Style
 
 Application code style should generally conform to the guidelines in

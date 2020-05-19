@@ -71,7 +71,8 @@ setup(
     # https://packaging.python.org/en/latest/requirements.html
     install_requires=[
         'python-dotenv',
-        'requests'
+        'requests',
+        'invoke'
     ],
     python_requires='>=3.8',
 
