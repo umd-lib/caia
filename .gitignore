@@ -1,3 +1,42 @@
+# Environment file
+.env
+
+# Log files
+logs/*
+!logs/.keep
+
+# Working storage directory, except for storage/etc
+storage/*
+!storage/etc
+!storage/circrequests
+
+storage/circrequests/*
+!storage/circrequests/README.md
+
+# Test storage directory, except for storage/circrequests/README.md
+tests/storage/*
+!tests/storage/circrequests
+tests/storage/circrequests/*
+!tests/storage/circrequests/README.md
+
+
+# Python dependency files
 caia.egg-info
 __pycache__
 
+# PyCharm IDE
+.idea/
+
+# npm files/directories
+node_modules/
+package-lock.json
+
+# Mountebank logs
+mb*.log
+
+# mypy cache
+.mypy_cache/
+
+# py-cov files
+.coverage
+htmlcov
