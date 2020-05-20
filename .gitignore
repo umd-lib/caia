@@ -2,7 +2,8 @@
 .env
 
 # Log files
-logs/
+logs/*
+!logs/.keep
 
 # Working storage directory, except for storage/etc
 storage/*
