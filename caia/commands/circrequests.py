@@ -18,6 +18,9 @@ logger = logging.getLogger(__name__)
 
 
 def configure_cli(subparsers) -> None:
+    """
+    Configures the CLI arguments for this command
+    """
     parser = subparsers.add_parser(
         name='circrequests',
         description='Retrieve hold requests from Aleph and send to CaiaSoft'
@@ -26,6 +29,9 @@ def configure_cli(subparsers) -> None:
 
 
 def create_job_configuration(start_time: str) -> CircrequestsJobConfig:
+    """
+    Creates the new job configuration
+    """
     # Create job configuration
     config = {
         'source_url': os.getenv("CIRCREQUESTS_SOURCE_URL"),
@@ -46,12 +52,19 @@ def create_job_configuration(start_time: str) -> CircrequestsJobConfig:
 
 
 def from_json_file(filepath: str) -> Any:
+    """
+    Converts the JSON in the given filepath to Python
+    """
     with open(filepath) as fp:
         return json.load(fp)
 
 
 def dest_post_entry(request_id: Optional[str], diff_result_entry: Dict[str, str], source_key_field: str) \
         -> Dict[str, str]:
+    """
+    Converts a single diff result entry into a format suitable for the
+    CaiaSoft.
+    """
     post_entry = {
         "barcode": diff_result_entry[source_key_field],
         "request_type": "PYR",
@@ -80,11 +93,17 @@ def dest_post_request_body(diff_result: DiffResult, source_key_field: str) -> st
 
 
 def write_to_file(filepath: str, contents: str) -> None:
+    """
+    Writes the given string to the given filepath
+    """
     with open(filepath, "w") as fp:
         fp.write(contents)
 
 
 def run_step(step: Step) -> StepResult:
+    """
+    Runs a step
+    """
     logger.debug(f"Starting {step}")
     step_result = step.execute()
     logger.debug(f"Completed {step} with result: {step_result}")
@@ -93,6 +112,7 @@ def run_step(step: Step) -> StepResult:
 
 class Command(caia.core.command.Command):
     def __call__(self, start_time: str, args: argparse.Namespace) -> caia.core.command.CommandResult:
+        # Create job configuration
         job_config = create_job_configuration(start_time)
 
         # Validate preconditions
