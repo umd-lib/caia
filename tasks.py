@@ -38,7 +38,7 @@ def clean(c):
         for file_path in file_list:
             try:
                 os.remove(file_path)
-            except:
+            except Exception:
                 print("Error while deleting file : ", file_path)
 
     log_dir = os.getenv("LOG_DIR")
@@ -52,7 +52,5 @@ def clean(c):
         for file_path in file_list:
             try:
                 os.remove(file_path)
-            except:
+            except Exception:
                 print("Error while deleting file : ", file_path)
-
-
