@@ -56,6 +56,22 @@ requests to CaiaSoft, using the CaiaSoft API "/circrequests" endpoint.
 
 See [docs/DevelopmentSetup.md](docs/DevelopmentSetup.md).
 
+## Docker Image
+
+This application provides a "Dockerfile" for generating a Docker image for use
+in production. The Dockerfile provides a sample build command.
+
+In order to generate "clean" Docker images, the Docker images should be built
+from a fresh clone of the GitHub repository.
+
+## Docker.ci and Jenkinsfile
+
+The "Dockerfile.ci" file is used to encapsulate the environment needed by the
+continuous integration (ci) server for building and testing the application.
+
+The "Jenkinsfile" provides the Jenkins pipeline steps for building and testing
+the application.
+
 ## License
 
 See the [LICENSE](LICENSE.md) file for license rights and limitations
