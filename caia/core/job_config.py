@@ -1,3 +1,4 @@
+import os
 import uuid
 from typing import Dict
 from datetime import datetime
@@ -14,6 +15,16 @@ class JobConfig(Dict[str, str]):
 
         self['job_id'] = JobIdGenerator.create_id(job_id_prefix, timestamp)
         self.update(config)
+
+    def generate_filepath(self, base_dir: str, file_descriptor: str, file_extension: str) -> str:
+        """
+        Returns a fully qualified filepath, based one this JobConfig, and
+        the given base directory, file descriptor, and extension
+        """
+        job_id = self['job_id']
+
+        base_filename = f"{job_id}.{file_descriptor}.{file_extension}"
+        return os.path.join(base_dir, base_filename)
 
     def __str__(self) -> str:
         """
