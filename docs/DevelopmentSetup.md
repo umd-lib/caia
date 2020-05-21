@@ -100,3 +100,19 @@ to check compliance with the guidelines can be run using:
 ```
 > pycodestyle .
 ```
+
+## Test Coverage Report
+
+A test coverage report can be generated using "pytest-cov":
+
+```
+> pytest --cov=caia tests/
+```
+
+to generage an HTML report:
+
+```
+> pytest --cov-report html --cov=caia tests/
+```
+
+The report will be written to the "htmlcov/" directory.
