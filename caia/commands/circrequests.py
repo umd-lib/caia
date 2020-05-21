@@ -11,7 +11,7 @@ from caia.circrequests.steps.send_to_dest import SendToDest
 from caia.circrequests.diff import DiffResult
 from caia.core.command import CommandResult
 import logging
-from typing import Any, Dict, Optional
+from typing import Dict, Optional
 from caia.core.step import Step, StepResult
 
 logger = logging.getLogger(__name__)
@@ -49,14 +49,6 @@ def create_job_configuration(start_time: str) -> CircrequestsJobConfig:
     logger.debug(f"job_config={job_config}")
 
     return job_config
-
-
-def from_json_file(filepath: str) -> Any:
-    """
-    Converts the JSON in the given filepath to Python
-    """
-    with open(filepath) as fp:
-        return json.load(fp)
 
 
 def dest_post_entry(request_id: Optional[str], diff_result_entry: Dict[str, str], source_key_field: str) \
@@ -117,18 +109,18 @@ class Command(caia.core.command.Command):
 
         # Validate preconditions
         step_result = run_step(ValidateJobPreconditions(job_config))
-        if not step_result.was_successful:
+        if not step_result.was_successful():
             return CommandResult(step_result.was_successful(), step_result.get_errors())
 
         # Query source URL
         step_result = run_step(QuerySourceUrl(job_config))
         write_to_file(job_config["source_response_body_filepath"], step_result.result)
-        if not step_result.was_successful:
+        if not step_result.was_successful():
             return CommandResult(step_result.was_successful(), step_result.get_errors())
 
         # Diff against last success
         step_result = run_step(DiffAgainstLastSuccess(job_config))
-        if not step_result.was_successful:
+        if not step_result.was_successful():
             return CommandResult(step_result.was_successful(), step_result.get_errors())
 
         diff_result = step_result.get_result()
@@ -153,7 +145,7 @@ class Command(caia.core.command.Command):
         # Write dest response body to a file
         write_to_file(job_config['dest_response_body_filepath'], step_result.get_result())
 
-        if not step_result.was_successful:
+        if not step_result.was_successful():
             return CommandResult(step_result.was_successful(), step_result.get_errors())
 
         # Record job as successful

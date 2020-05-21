@@ -57,7 +57,7 @@ class SendToDest(Step):
         if request_count == processed_count:
             logger.info("SUCCESS - All requests were processed")
         else:
-            logger.warning(f"WARNING - {denied_count} request(s) were denined")
+            logger.warning(f"WARNING - {denied_count} request(s) were denied")
 
     def __str__(self) -> str:
         fullname = f"{self.__class__.__module__}.{self.__class__.__name__}"
