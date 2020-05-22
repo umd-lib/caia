@@ -1,1 +1,9 @@
-{"holds":[{"item":"31430059472292","pickup_location":"McKeldin","aleph_id":"Aleph ID"}]}
+{
+  "holds": [
+    {
+      "barcode": "31430023550355",
+      "stop": "CPMCK",
+      "patron_id": "000000224432"
+    }
+  ]
+}

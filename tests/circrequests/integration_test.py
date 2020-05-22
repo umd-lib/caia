@@ -12,7 +12,6 @@ def setup_environment(imposter, temp_storage_dir, temp_success_filename):
     os.environ["CIRCREQUESTS_STORAGE_DIR"] = temp_storage_dir
     os.environ["CIRCREQUESTS_LAST_SUCCESS_LOOKUP"] = temp_success_filename
     os.environ["CAIASOFT_API_KEY"] = 'TEST_KEY'
-    os.environ["CIRCREQUESTS_SOURCE_KEY_FIELD"] = 'item'
 
 
 def test_successful_job(mock_server):
@@ -118,7 +117,6 @@ def test_src_returns_404_error(mock_server):
             os.environ["CIRCREQUESTS_STORAGE_DIR"] = temp_storage_dir
             os.environ["CIRCREQUESTS_LAST_SUCCESS_LOOKUP"] = temp_success_filename
             os.environ["CAIASOFT_API_KEY"] = 'TEST_KEY'
-            os.environ["CIRCREQUESTS_SOURCE_KEY_FIELD"] = 'item'
 
             start_time = '20200521132905'
             args = []
@@ -163,7 +161,6 @@ def test_dest_returns_404_error(mock_server):
             os.environ["CIRCREQUESTS_STORAGE_DIR"] = temp_storage_dir
             os.environ["CIRCREQUESTS_LAST_SUCCESS_LOOKUP"] = temp_success_filename
             os.environ["CAIASOFT_API_KEY"] = 'TEST_KEY'
-            os.environ["CIRCREQUESTS_SOURCE_KEY_FIELD"] = 'item'
 
             start_time = '20200521132905'
             args = []

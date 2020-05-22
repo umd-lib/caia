@@ -1,0 +1,14 @@
+---
+# Mapping of Aleph library codes to CaiaSoft stop locations
+library_stops: {
+  # <Aleph library code>: <CaiaSoft stop location>
+  CPMCK: McKeldin,
+  CPSPE: Hornbake,
+  CPPAL: MSPAL
+}
+
+# circrequests-specific configuration
+circrequests: {
+  # The field in the Aleph response that uniquely identifies a record.
+  source_key_field: barcode
+}

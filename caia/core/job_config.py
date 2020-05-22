@@ -2,6 +2,7 @@ import os
 import uuid
 from typing import Dict
 from datetime import datetime
+import yaml
 
 
 class JobConfig(Dict[str, str]):
@@ -14,6 +15,13 @@ class JobConfig(Dict[str, str]):
             timestamp = datetime.utcnow().strftime('%Y%m%d%H%M%S')
 
         self['job_id'] = JobIdGenerator.create_id(job_id_prefix, timestamp)
+
+        # Import YAML configuration file
+        application_config_file = "etc/config.yaml"
+        with open(application_config_file) as f:
+            application_config = yaml.load(f, Loader=yaml.FullLoader)
+        self['application_config'] = application_config
+
         self.update(config)
 
     def generate_filepath(self, base_dir: str, file_descriptor: str, file_extension: str) -> str:

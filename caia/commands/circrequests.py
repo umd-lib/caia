@@ -38,7 +38,6 @@ def create_job_configuration(start_time: str) -> CircrequestsJobConfig:
         'dest_url': os.getenv("CIRCREQUESTS_DEST_URL"),
         'caiasoft_api_key': os.getenv('CAIASOFT_API_KEY'),
         'storage_dir': os.getenv('CIRCREQUESTS_STORAGE_DIR'),
-        'source_key_field': os.getenv('CIRCREQUESTS_SOURCE_KEY_FIELD'),
         'last_success_lookup': os.getenv('CIRCREQUESTS_LAST_SUCCESS_LOOKUP')
     }
 
@@ -51,16 +50,19 @@ def create_job_configuration(start_time: str) -> CircrequestsJobConfig:
     return job_config
 
 
-def dest_post_entry(request_id: Optional[str], diff_result_entry: Dict[str, str], source_key_field: str) \
-        -> Dict[str, str]:
+def dest_post_entry(
+        request_id: Optional[str], diff_result_entry: Dict[str, str],
+        source_key_field: str, library_stops: Dict[str, str]) -> Dict[str, str]:
     """
     Converts a single diff result entry into a format suitable for the
     CaiaSoft.
     """
+    aleph_library_location = diff_result_entry["stop"]
+    caiasoft_library_stop = library_stops[aleph_library_location]
     post_entry = {
         "barcode": diff_result_entry[source_key_field],
         "request_type": "PYR",
-        "stop": "McKeldin"
+        "stop": caiasoft_library_stop
     }
 
     if request_id:
@@ -69,7 +71,7 @@ def dest_post_entry(request_id: Optional[str], diff_result_entry: Dict[str, str]
     return post_entry
 
 
-def dest_post_request_body(diff_result: DiffResult, source_key_field: str) -> str:
+def dest_post_request_body(diff_result: DiffResult, source_key_field: str, library_stops: Dict[str, str]) -> str:
     """
     Returns the JSON to send to CaiaSoft from the given DiffResult
     """
@@ -77,7 +79,7 @@ def dest_post_request_body(diff_result: DiffResult, source_key_field: str) -> st
     requests = []
     for entry in diff_result.new_entries:
         request_id = None
-        requests.append(dest_post_entry(request_id, entry, source_key_field))
+        requests.append(dest_post_entry(request_id, entry, source_key_field, library_stops))
 
     request_body = {"requests": requests}
     json_str = json.dumps(request_body)
@@ -136,7 +138,9 @@ class Command(caia.core.command.Command):
             return CommandResult(step_result.was_successful(), step_result.get_errors())
 
         # Create POST body, and store in a file
-        request_body = dest_post_request_body(diff_result, job_config['source_key_field'])
+        source_key_field = job_config['application_config']['circrequests']['source_key_field']
+        library_stops = job_config['application_config']['library_stops']
+        request_body = dest_post_request_body(diff_result, source_key_field, library_stops)
         write_to_file(job_config['dest_request_body_filepath'], request_body)
 
         # Send POST data to destination

@@ -17,6 +17,3 @@ CIRCREQUESTS_STORAGE_DIR=storage/circrequests/
 
 # File containing the fully-qualified filepath of the "last success"
 CIRCREQUESTS_LAST_SUCCESS_LOOKUP=storage/circrequests/circrequests_last_success.txt
-
-# The key field to use in identifying circrequest source entries
-CIRCREQUESTS_SOURCE_KEY_FIELD=barcode

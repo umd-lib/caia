@@ -72,7 +72,8 @@ setup(
     install_requires=[
         'python-dotenv',
         'requests',
-        'invoke'
+        'invoke',
+        'pyyaml'
     ],
     python_requires='>=3.8',
 
