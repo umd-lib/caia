@@ -1,6 +1,6 @@
 import os
 import uuid
-from typing import Dict
+from typing import Dict, Any
 from datetime import datetime
 import yaml
 
@@ -19,10 +19,13 @@ class JobConfig(Dict[str, str]):
         # Import YAML configuration file
         application_config_file = "etc/config.yaml"
         with open(application_config_file) as f:
-            application_config = yaml.load(f, Loader=yaml.FullLoader)
-        self['application_config'] = application_config
+            self.__application_config = yaml.load(f, Loader=yaml.FullLoader)
 
         self.update(config)
+
+    @property
+    def application_config(self) -> Dict[str, Any]:
+        return self.__application_config
 
     def generate_filepath(self, base_dir: str, file_descriptor: str, file_extension: str) -> str:
         """

@@ -41,7 +41,7 @@ class DiffAgainstLastSuccess(Step):
             source_response = json.load(fp)
             current = self.parse_source_response(source_response)
 
-        key_field = self.job_config['application_config']['circrequests']['source_key_field']
+        key_field = self.job_config.application_config['circrequests']['source_key_field']
 
         # Generate the diff result
         diff_result = diff(key_field, last_success, current)

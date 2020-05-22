@@ -138,8 +138,8 @@ class Command(caia.core.command.Command):
             return CommandResult(step_result.was_successful(), step_result.get_errors())
 
         # Create POST body, and store in a file
-        source_key_field = job_config['application_config']['circrequests']['source_key_field']
-        library_stops = job_config['application_config']['library_stops']
+        source_key_field = job_config.application_config['circrequests']['source_key_field']
+        library_stops = job_config.application_config['library_stops']
         request_body = dest_post_request_body(diff_result, source_key_field, library_stops)
         write_to_file(job_config['dest_request_body_filepath'], request_body)
 
