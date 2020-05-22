@@ -65,7 +65,7 @@ def main() -> None:
         parser.print_help()
         sys.exit(0)
 
-    logging_options:Dict[str, Any] = DEFAULT_LOGGING_OPTIONS
+    logging_options: Dict[str, Any] = DEFAULT_LOGGING_OPTIONS
 
     # log file configuration
     log_dirname = os.getenv("LOG_DIR", default="")
@@ -91,7 +91,7 @@ def main() -> None:
     logging.config.dictConfig(logging_options)
 
     # get the selected subcommand
-    command = command_modules[args.cmd_name].Command() # type: ignore[attr-defined]
+    command = command_modules[args.cmd_name].Command()  # type: ignore[attr-defined]
 
     logger.info(f"Starting {args.cmd_name} at {now} with args: {args}")
 

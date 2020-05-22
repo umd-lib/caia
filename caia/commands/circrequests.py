@@ -35,7 +35,7 @@ def create_job_configuration(start_time: str) -> CircrequestsJobConfig:
     # Create job configuration
     config = {
         'source_url': os.getenv("CIRCREQUESTS_SOURCE_URL", default=""),
-        'dest_url': os.getenv("CIRCREQUESTS_DEST_URL", default="") ,
+        'dest_url': os.getenv("CIRCREQUESTS_DEST_URL", default=""),
         'caiasoft_api_key': os.getenv('CAIASOFT_API_KEY', default=""),
         'storage_dir': os.getenv('CIRCREQUESTS_STORAGE_DIR', default=""),
         'last_success_lookup': os.getenv('CIRCREQUESTS_LAST_SUCCESS_LOOKUP', default="")

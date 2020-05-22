@@ -1,4 +1,4 @@
-from __future__ import annotations # Needed for Python typing on "from_dict" static method
+from __future__ import annotations  # Needed for Python typing on "from_dict" static method
 from typing import Dict, List
 
 
