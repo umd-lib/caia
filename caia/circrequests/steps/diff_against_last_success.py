@@ -15,7 +15,7 @@ class DiffAgainstLastSuccess(Step):
     """
     def __init__(self, job_config: CircrequestsJobConfig):
         self.job_config = job_config
-        self.errors = []
+        self.errors: List[str] = []
 
     @staticmethod
     def parse_source_response(response: Dict[Any, Any]) -> List[Dict[str, str]]:

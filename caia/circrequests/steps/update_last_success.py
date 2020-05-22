@@ -1,5 +1,6 @@
 from caia.core.step import Step, StepResult
 from caia.circrequests.circrequests_job_config import CircrequestsJobConfig
+from typing import List
 
 
 class UpdateLastSuccess(Step):
@@ -8,7 +9,7 @@ class UpdateLastSuccess(Step):
     """
     def __init__(self, job_config: CircrequestsJobConfig):
         self.job_config = job_config
-        self.errors = []
+        self.errors: List[str] = []
 
     def execute(self) -> StepResult:
         last_success_lookup = self.job_config['last_success_lookup']

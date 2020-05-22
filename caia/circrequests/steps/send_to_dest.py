@@ -3,6 +3,7 @@ from caia.circrequests.circrequests_job_config import CircrequestsJobConfig
 import requests
 import logging
 import json
+from typing import List
 
 logger = logging.getLogger(__name__)
 
@@ -13,7 +14,7 @@ class SendToDest(Step):
     """
     def __init__(self, job_config: CircrequestsJobConfig):
         self.job_config = job_config
-        self.errors = []
+        self.errors: List[str] = []
 
     def execute(self) -> StepResult:
         dest_request_body_filepath = self.job_config['dest_request_body_filepath']
