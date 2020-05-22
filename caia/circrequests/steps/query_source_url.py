@@ -2,6 +2,7 @@ from caia.core.step import Step, StepResult
 from caia.circrequests.circrequests_job_config import CircrequestsJobConfig
 import requests
 import logging
+from typing import List
 
 logger = logging.getLogger(__name__)
 
@@ -12,7 +13,7 @@ class QuerySourceUrl(Step):
     """
     def __init__(self, job_config: CircrequestsJobConfig):
         self.job_config = job_config
-        self.errors = []
+        self.errors: List[str] = []
 
     def execute(self) -> StepResult:
         source_url = self.job_config['source_url']

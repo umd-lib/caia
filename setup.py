@@ -72,7 +72,8 @@ setup(
     install_requires=[
         'python-dotenv',
         'requests',
-        'invoke'
+        'invoke',
+        'pyyaml'
     ],
     python_requires='>=3.8',
 
@@ -84,7 +85,7 @@ setup(
     # projects.
     extras_require={  # Optional
        'dev': ['pycodestyle'],
-       'test': ['pytest', 'mbtest'],
+       'test': ['pytest', 'pytest-cov', 'mbtest', 'mypy'],
     },
 
     # If there are data files included in your packages that need to be

@@ -44,7 +44,19 @@ def test_job_config_contains_all_config_keys():
 
     for key in config.keys():
         assert job_config[key] == config[key]
-        assert job_config[key] == config[key]
+
+
+def test_generate_filepath():
+    config = {}
+
+    job_config = JobConfig(config, 'test')
+    job_id = job_config["job_id"]
+
+    filepath1 = job_config.generate_filepath("/tmp", "test_file", "txt")
+    assert filepath1 == f"/tmp/{job_id}.test_file.txt"
+
+    filepath2 = job_config.generate_filepath("storage/foo", "abc", "json")
+    assert filepath2 == f"storage/foo/{job_id}.abc.json"
 
 
 def test_job_to_string():

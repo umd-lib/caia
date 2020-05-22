@@ -5,9 +5,8 @@
 logs/*
 !logs/.keep
 
-# Working storage directory, except for storage/etc
+# Working storage directory, except for storage/circrequests/README.md
 storage/*
-!storage/etc
 !storage/circrequests
 
 storage/circrequests/*
@@ -18,7 +17,6 @@ tests/storage/*
 !tests/storage/circrequests
 tests/storage/circrequests/*
 !tests/storage/circrequests/README.md
-
 
 # Python dependency files
 caia.egg-info
@@ -31,7 +29,8 @@ __pycache__
 node_modules/
 package-lock.json
 
-# Mountebank logs
+# Mountebank files and logs
+.mbdb/
 mb*.log
 
 # mypy cache
@@ -40,3 +39,6 @@ mb*.log
 # py-cov files
 .coverage
 htmlcov
+
+# Analysis tool reports
+reports/

@@ -5,7 +5,6 @@ from caia.circrequests.steps.diff_against_last_success import DiffAgainstLastSuc
 def test_diff_against_last_success():
     config = {
         'last_success_filepath': 'tests/resources/circrequests/valid_src_response_with_no_entries.json',
-        'source_key_field': 'item',
         'storage_dir': '/tmp',
         'last_success_lookup': 'tests/storage/circrequests/circrequests_last_success.txt'
     }

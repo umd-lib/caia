@@ -3,6 +3,7 @@ from caia.circrequests.circrequests_job_config import CircrequestsJobConfig
 import requests
 import logging
 import json
+from typing import List
 
 logger = logging.getLogger(__name__)
 
@@ -13,7 +14,7 @@ class SendToDest(Step):
     """
     def __init__(self, job_config: CircrequestsJobConfig):
         self.job_config = job_config
-        self.errors = []
+        self.errors: List[str] = []
 
     def execute(self) -> StepResult:
         dest_request_body_filepath = self.job_config['dest_request_body_filepath']
@@ -40,7 +41,7 @@ class SendToDest(Step):
             return step_result
 
     @staticmethod
-    def log_response(response_body_text: str):
+    def log_response(response_body_text: str) -> None:
         response = json.loads(response_body_text)
         request_count = int(response["request_count"])
         results = response["results"]
@@ -57,7 +58,7 @@ class SendToDest(Step):
         if request_count == processed_count:
             logger.info("SUCCESS - All requests were processed")
         else:
-            logger.warning(f"WARNING - {denied_count} request(s) were denined")
+            logger.warning(f"WARNING - {denied_count} request(s) were denied")
 
     def __str__(self) -> str:
         fullname = f"{self.__class__.__module__}.{self.__class__.__name__}"

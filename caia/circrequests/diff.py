@@ -1,3 +1,4 @@
+from __future__ import annotations  # Needed for Python typing on "from_dict" static method
 from typing import Dict, List
 
 
@@ -23,7 +24,7 @@ class DiffResult:
         return result
 
     @staticmethod
-    def from_dict(dictionary: Dict[str, List[Dict[str, str]]]):
+    def from_dict(dictionary: Dict[str, List[Dict[str, str]]]) -> DiffResult:
         """
         Returns a DiffResult from the given Dictionary, created the "as_dict"
         """

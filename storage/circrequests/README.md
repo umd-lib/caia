@@ -12,5 +12,5 @@ including:
 
 None of these files is required. If the "circrequests_last_success.txt" file
 does not exist, if will be created pointing to the
-"storage/etc/circrequests_FIRST.json" file.
+"etc/circrequests_FIRST.json" file.
 
