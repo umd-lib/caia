@@ -5,9 +5,8 @@
 logs/*
 !logs/.keep
 
-# Working storage directory, except for storage/etc
+# Working storage directory, except for storage/circrequests/README.md
 storage/*
-!storage/etc
 !storage/circrequests
 
 storage/circrequests/*

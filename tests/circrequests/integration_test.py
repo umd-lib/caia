@@ -32,7 +32,7 @@ def test_successful_job(mock_server):
     try:
         [temp_file_handle, temp_success_filename] = tempfile.mkstemp()
         with open(temp_success_filename, 'w') as f:
-            f.write('storage/etc/circrequests_FIRST.json')
+            f.write('etc/circrequests_FIRST.json')
 
         with tempfile.TemporaryDirectory() as temp_storage_dir, mock_server(imposter) as server:
             setup_environment(imposter, temp_storage_dir, temp_success_filename)
@@ -110,7 +110,7 @@ def test_src_returns_404_error(mock_server):
     try:
         [temp_file_handle, temp_success_filename] = tempfile.mkstemp()
         with open(temp_success_filename, 'w') as f:
-            f.write('storage/etc/circrequests_FIRST.json')
+            f.write('etc/circrequests_FIRST.json')
 
         with tempfile.TemporaryDirectory() as temp_storage_dir, mock_server(imposter) as server:
             os.environ["CIRCREQUESTS_SOURCE_URL"] = f"{imposter.url}/src"
@@ -155,7 +155,7 @@ def test_dest_returns_404_error(mock_server):
     try:
         [temp_file_handle, temp_success_filename] = tempfile.mkstemp()
         with open(temp_success_filename, 'w') as f:
-            f.write('storage/etc/circrequests_FIRST.json')
+            f.write('etc/circrequests_FIRST.json')
 
         with tempfile.TemporaryDirectory() as temp_storage_dir, mock_server(imposter) as server:
             os.environ["CIRCREQUESTS_SOURCE_URL"] = f"{imposter.url}/src"

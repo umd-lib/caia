@@ -35,7 +35,7 @@ class CircrequestsJobConfig(JobConfig):
         # Use "last_success_lookup" to populate the "last_success_filepath"
         # value, which is the actual JSON file to use in the "diff" comparison
         # against the result of the current job. If the "last_success_lookup"
-        # file does not exist, create one, with "storage/etc/circrequests_FIRST.json"
+        # file does not exist, create one, with "etc/circrequests_FIRST.json"
         # as the JSON file it points to.
         if self['last_success_lookup']:
             last_success_lookup_filepath = self['last_success_lookup']
@@ -43,7 +43,7 @@ class CircrequestsJobConfig(JobConfig):
                 logger.warning(f"last_success_lookup file at '{last_success_lookup_filepath} was not found. "
                                "Creating default.")
                 with open(last_success_lookup_filepath, "w") as fp:
-                    fp.write("storage/etc/circrequests_FIRST.json")
+                    fp.write("etc/circrequests_FIRST.json")
 
         last_success_lookup = config['last_success_lookup']
         self["last_success_filepath"] = get_last_success_filepath(last_success_lookup)
