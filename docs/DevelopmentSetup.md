@@ -109,10 +109,22 @@ A test coverage report can be generated using "pytest-cov":
 > pytest --cov=caia tests/
 ```
 
-to generage an HTML report:
+to generate an HTML report:
 
 ```
 > pytest --cov-report html --cov=caia tests/
 ```
 
 The report will be written to the "htmlcov/" directory.
+
+## Python Type Hinting
+
+The application uses Python type hinting (see
+[PEP 484](https://www.python.org/dev/peps/pep-0484/)) to document class and
+method signatures.
+
+The "mypy" tool can be used to assess issues with the type hinting:
+
+```
+> mypy caia --strict --show-error-codes
+```

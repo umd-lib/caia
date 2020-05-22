@@ -85,7 +85,7 @@ setup(
     # projects.
     extras_require={  # Optional
        'dev': ['pycodestyle'],
-       'test': ['pytest', 'pytest-cov', 'mbtest'],
+       'test': ['pytest', 'pytest-cov', 'mbtest', 'mypy'],
     },
 
     # If there are data files included in your packages that need to be
