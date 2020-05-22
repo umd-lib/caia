@@ -30,7 +30,8 @@ __pycache__
 node_modules/
 package-lock.json
 
-# Mountebank logs
+# Mountebank files and logs
+.mbdb/
 mb*.log
 
 # mypy cache
