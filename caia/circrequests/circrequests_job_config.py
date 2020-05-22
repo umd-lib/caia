@@ -16,7 +16,7 @@ def get_last_success_filepath(last_success_lookup: str) -> str:
 
 
 class CircrequestsJobConfig(JobConfig):
-    def __init__(self, config: Dict[str, str], job_id_prefix: str = '', timestamp: str = None):
+    def __init__(self, config: Dict[str, str], job_id_prefix: str = '', timestamp: str = ""):
         super().__init__(config, job_id_prefix, timestamp)
 
         storage_dir = self["storage_dir"]

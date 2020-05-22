@@ -17,7 +17,7 @@ from caia.core.step import Step, StepResult
 logger = logging.getLogger(__name__)
 
 
-def configure_cli(subparsers) -> None:
+def configure_cli(subparsers) -> None:  # type: ignore
     """
     Configures the CLI arguments for this command
     """

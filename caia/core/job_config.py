@@ -9,9 +9,9 @@ class JobConfig(Dict[str, str]):
     """
     Contains all the configuration parameters for a job, including the job id.
     """
-    def __init__(self, config: Dict[str, str], job_id_prefix: str = '', timestamp: str = None):
+    def __init__(self, config: Dict[str, str], job_id_prefix: str = '', timestamp: str = ""):
         super().__init__()
-        if timestamp is None:
+        if not timestamp:
             timestamp = datetime.utcnow().strftime('%Y%m%d%H%M%S')
 
         self['job_id'] = JobIdGenerator.create_id(job_id_prefix, timestamp)
@@ -24,7 +24,7 @@ class JobConfig(Dict[str, str]):
         self.update(config)
 
     @property
-    def application_config(self) -> Dict[str, Any]:
+    def application_config(self) -> Any:
         return self.__application_config
 
     def generate_filepath(self, base_dir: str, file_descriptor: str, file_extension: str) -> str:

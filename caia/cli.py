@@ -12,7 +12,7 @@ from pkgutil import iter_modules
 from caia import commands, version
 from caia.logging import DEFAULT_LOGGING_OPTIONS
 from dotenv import load_dotenv
-
+from typing import Dict, Any
 
 load_dotenv()
 logger = logging.getLogger(__name__)
@@ -51,10 +51,10 @@ def main() -> None:
 
     # load all defined subcommands from the caia.commands package
     command_modules = {}
-    for finder, name, ispkg in iter_modules(commands.__path__):
+    for finder, name, ispkg in iter_modules(commands.__path__):  # type: ignore[attr-defined]
         module = import_module(commands.__name__ + '.' + name)
         if hasattr(module, 'configure_cli'):
-            module.configure_cli(subparsers)
+            module.configure_cli(subparsers)  # type: ignore[attr-defined]
             command_modules[name] = module
 
     # parse command line args
@@ -65,12 +65,18 @@ def main() -> None:
         parser.print_help()
         sys.exit(0)
 
-    logging_options = DEFAULT_LOGGING_OPTIONS
+    logging_options:Dict[str, Any] = DEFAULT_LOGGING_OPTIONS
 
     # log file configuration
-    log_dirname = os.getenv("LOG_DIR")
+    log_dirname = os.getenv("LOG_DIR", default="")
+    if not log_dirname:
+        logger.error("The 'LOG_DIR' environment variable is not defined. Exiting")
+        sys.exit(1)
+
     if not os.path.isdir(log_dirname):
+        logger.debug(f"Creating log directory at {log_dirname}")
         os.makedirs(log_dirname)
+
     log_filename = 'caia.{0}.{1}.log'.format(args.cmd_name, now)
     logfile = os.path.join(log_dirname, log_filename)
     logging_options['handlers']['file']['filename'] = logfile
@@ -85,7 +91,7 @@ def main() -> None:
     logging.config.dictConfig(logging_options)
 
     # get the selected subcommand
-    command = command_modules[args.cmd_name].Command()
+    command = command_modules[args.cmd_name].Command() # type: ignore[attr-defined]
 
     logger.info(f"Starting {args.cmd_name} at {now} with args: {args}")
 

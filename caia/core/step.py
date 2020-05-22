@@ -20,10 +20,10 @@ class StepResult:
         self.result = result
         self.errors = errors
 
-    def was_successful(self):
+    def was_successful(self) -> bool:
         return self.success
 
-    def get_result(self):
+    def get_result(self) -> Any:
         return self.result
 
     def get_errors(self) -> List[str]:

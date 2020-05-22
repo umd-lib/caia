@@ -1,6 +1,6 @@
 from caia.core.step import Step, StepResult
 from caia.circrequests.circrequests_job_config import CircrequestsJobConfig
-from typing import Any, Dict, List
+from typing import Any, Dict, List, cast
 from caia.circrequests.diff import diff
 import json
 import logging
@@ -23,7 +23,8 @@ class DiffAgainstLastSuccess(Step):
         Parses a source response for diffing
         """
         if 'holds' in response:
-            return response['holds']
+            # the "cast" is for Python type hinting
+            return cast(List[Dict[str, str]], response['holds'])
         return []
 
     def execute(self) -> StepResult:

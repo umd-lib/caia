@@ -41,7 +41,7 @@ class SendToDest(Step):
             return step_result
 
     @staticmethod
-    def log_response(response_body_text: str):
+    def log_response(response_body_text: str) -> None:
         response = json.loads(response_body_text)
         request_count = int(response["request_count"])
         results = response["results"]
