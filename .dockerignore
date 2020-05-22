@@ -18,7 +18,6 @@ tests/storage/*
 tests/storage/circrequests/*
 !tests/storage/circrequests/README.md
 
-
 # Python dependency files
 caia.egg-info
 __pycache__
@@ -40,3 +39,6 @@ mb*.log
 # py-cov files
 .coverage
 htmlcov
+
+# Analysis tool reports
+reports/

@@ -110,12 +110,14 @@ pipeline {
           # Install pytest
           pip install pytest
 
-          pytest -v --junitxml=reports/results.xml -o junit_family=xunit1
+          pytest --cov-report xml:reports/coverage.xml --cov=caia -v --junitxml=reports/results.xml -o junit_family=xunit1
         '''
       }
       post {
         always {
           junit '**/reports/results.xml'
+
+          cobertura autoUpdateHealth: false, autoUpdateStability: false, coberturaReportFile: 'reports/coverage.xml', failUnhealthy: false, failUnstable: false, maxNumberOfBuilds: 0, onlyStable: false, zoomCoverageChart: false
         }
       }
     }
@@ -126,7 +128,7 @@ pipeline {
           # Install pycodestyle
           pip install pycodestyle
 
-          # Run pycodesytyle
+          # Run pycodestyle
           # Send output to standard out for "Record compiler warnings and static analysis results"
           # post-build action
           #
