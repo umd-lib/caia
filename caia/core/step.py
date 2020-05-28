@@ -48,3 +48,13 @@ class Step(metaclass=abc.ABCMeta):
         the "errors" method should return a meaningful error message.
         """
         raise NotImplementedError
+
+
+def run_step(step: Step) -> StepResult:
+    """
+    Runs a step
+    """
+    logger.debug(f"Starting {step}")
+    step_result = step.execute()
+    logger.debug(f"Completed {step} with result: {step_result}")
+    return step_result

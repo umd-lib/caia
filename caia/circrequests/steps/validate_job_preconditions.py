@@ -1,6 +1,6 @@
 from caia.core.step import Step, StepResult
 from caia.circrequests.circrequests_job_config import CircrequestsJobConfig
-import caia.circrequests.assertions as assertions
+import caia.core.assertions as assertions
 from typing import List
 
 

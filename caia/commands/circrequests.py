@@ -6,13 +6,13 @@ from caia.circrequests.circrequests_job_config import CircrequestsJobConfig
 from caia.circrequests.steps.validate_job_preconditions import ValidateJobPreconditions
 from caia.circrequests.steps.query_source_url import QuerySourceUrl
 from caia.circrequests.steps.diff_against_last_success import DiffAgainstLastSuccess
+from caia.circrequests.steps.create_dest_request import CreateDestRequest
 from caia.circrequests.steps.update_last_success import UpdateLastSuccess
 from caia.circrequests.steps.send_to_dest import SendToDest
-from caia.circrequests.diff import DiffResult
 from caia.core.command import CommandResult
 import logging
-from typing import Dict, Optional
-from caia.core.step import Step, StepResult
+from caia.core.step import run_step
+from caia.core.io import write_to_file
 
 logger = logging.getLogger(__name__)
 
@@ -50,60 +50,6 @@ def create_job_configuration(start_time: str) -> CircrequestsJobConfig:
     return job_config
 
 
-def dest_post_entry(
-        request_id: Optional[str], diff_result_entry: Dict[str, str],
-        source_key_field: str, library_stops: Dict[str, str]) -> Dict[str, str]:
-    """
-    Converts a single diff result entry into a format suitable for the
-    CaiaSoft.
-    """
-    aleph_library_location = diff_result_entry["stop"]
-    caiasoft_library_stop = library_stops[aleph_library_location]
-    post_entry = {
-        "barcode": diff_result_entry[source_key_field],
-        "request_type": "PYR",
-        "stop": caiasoft_library_stop
-    }
-
-    if request_id:
-        post_entry['request_id'] = request_id
-
-    return post_entry
-
-
-def dest_post_request_body(diff_result: DiffResult, source_key_field: str, library_stops: Dict[str, str]) -> str:
-    """
-    Returns the JSON to send to CaiaSoft from the given DiffResult
-    """
-
-    requests = []
-    for entry in diff_result.new_entries:
-        request_id = None
-        requests.append(dest_post_entry(request_id, entry, source_key_field, library_stops))
-
-    request_body = {"requests": requests}
-    json_str = json.dumps(request_body)
-    return json_str
-
-
-def write_to_file(filepath: str, contents: str) -> None:
-    """
-    Writes the given string to the given filepath
-    """
-    with open(filepath, "w") as fp:
-        fp.write(contents)
-
-
-def run_step(step: Step) -> StepResult:
-    """
-    Runs a step
-    """
-    logger.debug(f"Starting {step}")
-    step_result = step.execute()
-    logger.debug(f"Completed {step} with result: {step_result}")
-    return step_result
-
-
 class Command(caia.core.command.Command):
     def __call__(self, start_time: str, args: argparse.Namespace) -> caia.core.command.CommandResult:
         # Create job configuration
@@ -137,11 +83,13 @@ class Command(caia.core.command.Command):
             step_result = run_step(UpdateLastSuccess(job_config))
             return CommandResult(step_result.was_successful(), step_result.get_errors())
 
-        # Create POST body, and store in a file
-        source_key_field = job_config.application_config['circrequests']['source_key_field']
-        library_stops = job_config.application_config['library_stops']
-        request_body = dest_post_request_body(diff_result, source_key_field, library_stops)
-        write_to_file(job_config['dest_request_body_filepath'], request_body)
+        # Create POST body
+        step_result = run_step(CreateDestRequest(job_config, diff_result))
+        if not step_result.was_successful():
+            return CommandResult(step_result.was_successful(), step_result.get_errors())
+
+        # Write POST request body to file
+        write_to_file(job_config['dest_request_body_filepath'], step_result.get_result())
 
         # Send POST data to destination
         step_result = run_step(SendToDest(job_config))

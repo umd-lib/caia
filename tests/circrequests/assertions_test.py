@@ -1,4 +1,4 @@
-import caia.circrequests.assertions as assertions
+import caia.core.assertions as assertions
 from caia.core.job_config import JobConfig
 
 

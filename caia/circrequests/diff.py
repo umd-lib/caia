@@ -52,19 +52,19 @@ def diff(key_field: str, list1: List[Dict[str, str]], list2: List[Dict[str, str]
     list1_keys = list1_as_dict.keys()
     list2_keys = list2_as_dict.keys()
 
-    # Barcodes in list2 only (new)
+    # Keys in list2 only (new)
     new_keys = list(set(list2_keys) - set(list1_keys))
     new_entries = []
     for key in new_keys:
         new_entries.append(list2_as_dict[key])
 
-    # Barcodes in list1 only (deleted)
+    # Keys in list1 only (deleted)
     deleted_keys = list(set(list1_keys) - set(list2_keys))
     deleted_entries = []
     for key in deleted_keys:
         deleted_entries.append(list1_as_dict[key])
 
-    # Barcodes in both lists (modified?)
+    # Keys in both lists (modified?)
     possibly_modified_keys = list(set(list1_keys) & set(list2_keys))
     modified_entries = []
     for key in possibly_modified_keys:

@@ -29,6 +29,7 @@ def test_valid_response_from_server(mock_server):
 
         assert step_result.was_successful() is True
         assert_that(server, had_request().with_path("/holds").and_method("GET"))
+        assert valid_src_response == step_result.get_result()
 
 
 def test_404_response_from_server(mock_server):

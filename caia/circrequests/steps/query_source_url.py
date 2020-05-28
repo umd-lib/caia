@@ -1,8 +1,8 @@
 from caia.core.step import Step, StepResult
 from caia.circrequests.circrequests_job_config import CircrequestsJobConfig
-import requests
 import logging
 from typing import List
+from caia.core.http import http_get_request
 
 logger = logging.getLogger(__name__)
 
@@ -17,22 +17,9 @@ class QuerySourceUrl(Step):
 
     def execute(self) -> StepResult:
         source_url = self.job_config['source_url']
-        logger.info(f"Querying {source_url}")
-
         headers = {'Content-Type': 'application/json'}
-        request = requests.get(source_url, headers=headers)
 
-        status_code = request.status_code
-        logger.debug(f"request completed with status code: {status_code}")
-
-        if status_code == requests.codes.ok:
-            step_result = StepResult(True, request.text)
-            return step_result
-        else:
-            error = f"Retrieval of '{source_url}' failed with a status code of {status_code}"
-            self.errors.append(error)
-            step_result = StepResult(False, request.text, self.errors)
-            return step_result
+        return http_get_request(source_url, headers)
 
     def __str__(self) -> str:
         fullname = f"{self.__class__.__module__}.{self.__class__.__name__}"
