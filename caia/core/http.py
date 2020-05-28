@@ -1,15 +1,16 @@
 import requests
 import logging
-from typing import Dict
+from typing import Dict, Optional
 from caia.core.step import StepResult
 
 logger = logging.getLogger(__name__)
 
 
-def http_get_request(url: str, headers: Dict[str, str]) -> StepResult:
+def http_get_request(url: str, headers: Dict[str, str], query_params: Optional[Dict[str, str]] = None) -> StepResult:
     logger.info(f"Sending GET request to {url}")
 
-    request = requests.get(url, headers=headers)
+    request = requests.get(url, query_params, headers=headers)
+    logger.debug(f"Full request URL was {request.url}")
 
     status_code = request.status_code
     logger.debug(f"request completed with status code: {status_code}")

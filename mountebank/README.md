@@ -33,3 +33,11 @@ A successful "circrequests" session with one item.
 
 * CIRCREQUESTS_SOURCE_URL: http://localhost:4545/circrequests/source
 * CIRCREQUESTS_DEST_URL: http://localhost:6565/circrequests/dest
+
+### items_success.ejs
+
+A successful "items" session with one new item and one updated.
+
+* ITEMS_SOURCE_URL: http://localhost:4545/items/source
+* ITEMS_DEST_NEW_URL: http://localhost:6565/items/dest/incoming
+* ITEMS_DEST_UPDATES_URL: http://localhost:6565/items/dest/updates

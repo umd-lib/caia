@@ -1,0 +1,6 @@
+{
+  "incoming": [
+    { "barcode":"33433096993165", "collection":"DEMO", "title":"Jane Eyre" },
+    { "barcode":"31234000023075", "call_number":"R34.5", "physical_desc":"317 pages", "title":"Wuthering Heights" }
+  ]
+}

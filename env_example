@@ -17,3 +17,19 @@ CIRCREQUESTS_STORAGE_DIR=storage/circrequests/
 
 # File containing the fully-qualified filepath of the "last success"
 CIRCREQUESTS_LAST_SUCCESS_LOOKUP=storage/circrequests/circrequests_last_success.txt
+
+#--- items properties
+# The URL to query for new/updated items
+ITEMS_SOURCE_URL=
+
+# The URL to POST new items to
+ITEMS_DEST_NEW_URL=
+
+# The URL to POST item updates to
+ITEMS_DEST_UPDATES_URL=
+
+# The directory where items files should be written to
+ITEMS_STORAGE_DIR=storage/items/
+
+# File containing the fully-qualified filepath of the "last success"
+ITEMS_LAST_SUCCESS_LOOKUP=storage/items/items_last_success.txt
