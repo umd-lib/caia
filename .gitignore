@@ -32,6 +32,7 @@ package-lock.json
 # Mountebank files and logs
 .mbdb/
 mb*.log
+mb.pid
 
 # mypy cache
 .mypy_cache/
