@@ -1,20 +1,21 @@
-import caia.core.command
 import argparse
+import logging
 import os
+
+import caia.core.command
+from caia.core.command import CommandResult
+from caia.core.io import write_to_file
+from caia.core.step import run_step
 from caia.items.items_job_config import ItemsJobConfig
-from caia.items.steps.validate_job_preconditions import ValidateJobPreconditions
-from caia.items.steps.get_last_timestamp import GetLastTimestamp
-from caia.items.steps.query_source_url import QuerySourceUrl
-from caia.items.steps.parse_source_response import ParseSourceResponse
 from caia.items.steps.create_dest_request import CreateDestNewItemsRequest
+from caia.items.steps.create_dest_request import CreateDestUpdatedItemsRequest
+from caia.items.steps.get_last_timestamp import GetLastTimestamp
+from caia.items.steps.parse_source_response import ParseSourceResponse
+from caia.items.steps.query_source_url import QuerySourceUrl
 from caia.items.steps.send_new_items_to_dest import SendNewItemsToDest
 from caia.items.steps.send_updated_items_to_dest import SendUpdatedItemsToDest
-from caia.items.steps.create_dest_request import CreateDestUpdatedItemsRequest
 from caia.items.steps.update_last_success import UpdateLastSuccess
-from caia.core.command import CommandResult
-import logging
-from caia.core.step import run_step
-from caia.core.io import write_to_file
+from caia.items.steps.validate_job_preconditions import ValidateJobPreconditions
 
 logger = logging.getLogger(__name__)
 

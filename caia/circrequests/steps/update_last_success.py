@@ -1,6 +1,7 @@
-from caia.core.step import Step, StepResult
-from caia.circrequests.circrequests_job_config import CircrequestsJobConfig
 from typing import List
+
+from caia.circrequests.circrequests_job_config import CircrequestsJobConfig
+from caia.core.step import Step, StepResult
 
 
 class UpdateLastSuccess(Step):

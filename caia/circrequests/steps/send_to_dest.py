@@ -1,10 +1,10 @@
+import json
+import logging
+from typing import List
+
+from caia.circrequests.circrequests_job_config import CircrequestsJobConfig
 from caia.core.http import http_post_request
 from caia.core.step import Step, StepResult
-from caia.circrequests.circrequests_job_config import CircrequestsJobConfig
-import requests
-import logging
-import json
-from typing import List
 
 logger = logging.getLogger(__name__)
 

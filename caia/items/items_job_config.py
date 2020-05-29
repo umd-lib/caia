@@ -1,7 +1,8 @@
-from typing import Dict
-from caia.core.job_config import JobConfig
-import os
 import logging
+import os
+from typing import Dict
+
+from caia.core.job_config import JobConfig
 
 logger = logging.getLogger(__name__)
 

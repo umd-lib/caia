@@ -1,9 +1,11 @@
-from hamcrest import assert_that
-from mbtest.matchers import had_request
-from mbtest.imposters import Imposter, Predicate, Response, Stub
-from caia.commands.circrequests import Command
-import tempfile
 import os
+import tempfile
+
+from hamcrest import assert_that
+from mbtest.imposters import Imposter, Predicate, Response, Stub
+from mbtest.matchers import had_request
+
+from caia.commands.circrequests import Command
 
 
 def setup_environment(imposter, temp_storage_dir, temp_success_filename):

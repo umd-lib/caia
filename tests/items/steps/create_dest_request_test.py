@@ -1,6 +1,6 @@
+from caia.items.steps.create_dest_request import CreateDestNewItemsRequest, CreateDestUpdatedItemsRequest
 from caia.items.steps.create_dest_request import parse_item
 from caia.items.steps.parse_source_response import ParseSourceResponse
-from caia.items.steps.create_dest_request import CreateDestNewItemsRequest, CreateDestUpdatedItemsRequest
 
 
 def test_parse_item():

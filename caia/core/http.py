@@ -1,6 +1,8 @@
-import requests
 import logging
 from typing import Dict, Optional
+
+import requests
+
 from caia.core.step import StepResult
 
 logger = logging.getLogger(__name__)

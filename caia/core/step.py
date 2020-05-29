@@ -1,6 +1,6 @@
 import abc
-from typing import Any, List
 import logging
+from typing import Any, List
 
 logger = logging.getLogger(__name__)
 

@@ -1,8 +1,9 @@
-from caia.core.step import Step, StepResult
-from caia.items.source_items import SourceItems
+import json
 import logging
 from typing import Dict, List
-import json
+
+from caia.core.step import Step, StepResult
+from caia.items.source_items import SourceItems
 
 logger = logging.getLogger(__name__)
 

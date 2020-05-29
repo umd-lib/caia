@@ -1,6 +1,7 @@
+import pytest
+
 from caia.items.items_job_config import ItemsJobConfig
 from caia.items.steps.get_last_timestamp import GetLastTimestamp
-import pytest
 
 
 def test_get_last_timestamp_default_timestamp():

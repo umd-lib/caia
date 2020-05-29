@@ -1,6 +1,7 @@
+from typing import List
+
 from caia.core.step import Step, StepResult
 from caia.items.items_job_config import ItemsJobConfig
-from typing import List
 
 
 class UpdateLastSuccess(Step):

@@ -1,10 +1,11 @@
-from hamcrest import assert_that
-from mbtest.matchers import had_request
-from mbtest.imposters import Imposter, Predicate, Response, Stub
-from caia.items.items_job_config import ItemsJobConfig
-from caia.items.steps.query_source_url import QuerySourceUrl
 import pytest
 import requests
+from hamcrest import assert_that
+from mbtest.imposters import Imposter, Predicate, Response, Stub
+from mbtest.matchers import had_request
+
+from caia.items.items_job_config import ItemsJobConfig
+from caia.items.steps.query_source_url import QuerySourceUrl
 
 
 def test_valid_response_from_server(mock_server):

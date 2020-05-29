@@ -1,7 +1,8 @@
+from typing import List
+
+import caia.core.assertions as assertions
 from caia.core.step import Step, StepResult
 from caia.items.items_job_config import ItemsJobConfig
-import caia.core.assertions as assertions
-from typing import List
 
 
 class ValidateJobPreconditions(Step):

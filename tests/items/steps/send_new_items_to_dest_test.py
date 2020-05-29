@@ -1,6 +1,7 @@
 from hamcrest import assert_that
-from mbtest.matchers import had_request
 from mbtest.imposters import Imposter, Predicate, Response, Stub
+from mbtest.matchers import had_request
+
 from caia.items.items_job_config import ItemsJobConfig
 from caia.items.steps.send_new_items_to_dest import SendNewItemsToDest
 

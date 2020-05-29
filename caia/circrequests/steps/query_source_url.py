@@ -1,8 +1,9 @@
-from caia.core.step import Step, StepResult
-from caia.circrequests.circrequests_job_config import CircrequestsJobConfig
 import logging
 from typing import List
+
+from caia.circrequests.circrequests_job_config import CircrequestsJobConfig
 from caia.core.http import http_get_request
+from caia.core.step import Step, StepResult
 
 logger = logging.getLogger(__name__)
 

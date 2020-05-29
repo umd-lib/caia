@@ -1,8 +1,9 @@
-from caia.core.step import Step, StepResult
-from caia.items.items_job_config import ItemsJobConfig
 import logging
 from typing import List
+
 from caia.core.http import http_get_request
+from caia.core.step import Step, StepResult
+from caia.items.items_job_config import ItemsJobConfig
 
 logger = logging.getLogger(__name__)
 

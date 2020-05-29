@@ -1,6 +1,6 @@
 from caia.circrequests.circrequests_job_config import CircrequestsJobConfig
-from caia.circrequests.steps.create_dest_request import CreateDestRequest
 from caia.circrequests.diff import DiffResult
+from caia.circrequests.steps.create_dest_request import CreateDestRequest
 
 
 def test_create_dest_request():

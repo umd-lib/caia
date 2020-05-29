@@ -4,9 +4,10 @@ https://packaging.python.org/en/latest/distributing.html
 https://github.com/pypa/sampleproject
 """
 
+from os import path
+
 # Always prefer setuptools over distutils
 from setuptools import setup, find_packages
-from os import path
 
 import caia
 

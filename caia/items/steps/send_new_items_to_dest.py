@@ -1,9 +1,10 @@
+import json
+import logging
+from typing import List
+
 from caia.core.http import http_post_request
 from caia.core.step import Step, StepResult
 from caia.items.items_job_config import ItemsJobConfig
-import logging
-import json
-from typing import List
 
 logger = logging.getLogger(__name__)
 

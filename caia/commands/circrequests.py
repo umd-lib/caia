@@ -1,18 +1,19 @@
-import caia.core.command
 import argparse
 import json
-import os
-from caia.circrequests.circrequests_job_config import CircrequestsJobConfig
-from caia.circrequests.steps.validate_job_preconditions import ValidateJobPreconditions
-from caia.circrequests.steps.query_source_url import QuerySourceUrl
-from caia.circrequests.steps.diff_against_last_success import DiffAgainstLastSuccess
-from caia.circrequests.steps.create_dest_request import CreateDestRequest
-from caia.circrequests.steps.update_last_success import UpdateLastSuccess
-from caia.circrequests.steps.send_to_dest import SendToDest
-from caia.core.command import CommandResult
 import logging
-from caia.core.step import run_step
+import os
+
+import caia.core.command
+from caia.circrequests.circrequests_job_config import CircrequestsJobConfig
+from caia.circrequests.steps.create_dest_request import CreateDestRequest
+from caia.circrequests.steps.diff_against_last_success import DiffAgainstLastSuccess
+from caia.circrequests.steps.query_source_url import QuerySourceUrl
+from caia.circrequests.steps.send_to_dest import SendToDest
+from caia.circrequests.steps.update_last_success import UpdateLastSuccess
+from caia.circrequests.steps.validate_job_preconditions import ValidateJobPreconditions
+from caia.core.command import CommandResult
 from caia.core.io import write_to_file
+from caia.core.step import run_step
 
 logger = logging.getLogger(__name__)
 
