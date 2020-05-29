@@ -8,15 +8,23 @@ logs/*
 # Working storage directory, except for storage/circrequests/README.md
 storage/*
 !storage/circrequests
+!storage/items
 
 storage/circrequests/*
 !storage/circrequests/README.md
+
+storage/items/*
+!storage/items/README.md
 
 # Test storage directory, except for storage/circrequests/README.md
 tests/storage/*
 !tests/storage/circrequests
 tests/storage/circrequests/*
 !tests/storage/circrequests/README.md
+
+!tests/storage/items
+tests/storage/items/*
+!tests/storage/items/README.md
 
 # Python dependency files
 caia.egg-info
