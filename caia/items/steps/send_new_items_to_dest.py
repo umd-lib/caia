@@ -38,7 +38,7 @@ class SendNewItemsToDest(Step):
         response = json.loads(response_body_text)
         incoming_count = int(response["incoming_count"])
         rejected_count = int(response["rejected_count"])
-        rejects = response["rejects"]
+        rejects = len(response["rejects"])
 
         logger.info(f"Total requests: {incoming_count}, Rejected: {rejected_count}, Rejects: {rejects}")
         if rejects == 0:
