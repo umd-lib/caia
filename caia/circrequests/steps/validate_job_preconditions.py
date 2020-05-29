@@ -1,7 +1,8 @@
-from caia.core.step import Step, StepResult
-from caia.circrequests.circrequests_job_config import CircrequestsJobConfig
-import caia.circrequests.assertions as assertions
 from typing import List
+
+import caia.core.assertions as assertions
+from caia.circrequests.circrequests_job_config import CircrequestsJobConfig
+from caia.core.step import Step, StepResult
 
 
 class ValidateJobPreconditions(Step):

@@ -1,8 +1,9 @@
 import os
+from json import load, JSONDecodeError
 from typing import List
 from urllib.parse import urlparse
+
 from caia.core.job_config import JobConfig
-from json import load, JSONDecodeError
 
 
 def assert_key_exists(job_config: JobConfig, key: str, errors: List[str]) -> bool:

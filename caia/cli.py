@@ -9,10 +9,12 @@ import sys
 from datetime import datetime
 from importlib import import_module
 from pkgutil import iter_modules
+from typing import Dict, Any
+
+from dotenv import load_dotenv
+
 from caia import commands, version
 from caia.logging import DEFAULT_LOGGING_OPTIONS
-from dotenv import load_dotenv
-from typing import Dict, Any
 
 load_dotenv()
 logger = logging.getLogger(__name__)

@@ -1,11 +1,12 @@
-from caia.core.step import Step, StepResult
-from caia.circrequests.circrequests_job_config import CircrequestsJobConfig
 from typing import List
+
+from caia.circrequests.circrequests_job_config import CircrequestsJobConfig
+from caia.core.step import Step, StepResult
 
 
 class UpdateLastSuccess(Step):
     """
-    Validates that all preconditions necessary for the job have been met.
+    Records the filepath of the last successful source response.
     """
     def __init__(self, job_config: CircrequestsJobConfig):
         self.job_config = job_config

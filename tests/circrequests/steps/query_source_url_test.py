@@ -1,10 +1,11 @@
-from hamcrest import assert_that
-from mbtest.matchers import had_request
-from mbtest.imposters import Imposter, Predicate, Response, Stub
-from caia.circrequests.circrequests_job_config import CircrequestsJobConfig
-from caia.circrequests.steps.query_source_url import QuerySourceUrl
 import pytest
 import requests
+from hamcrest import assert_that
+from mbtest.imposters import Imposter, Predicate, Response, Stub
+from mbtest.matchers import had_request
+
+from caia.circrequests.circrequests_job_config import CircrequestsJobConfig
+from caia.circrequests.steps.query_source_url import QuerySourceUrl
 
 
 def test_valid_response_from_server(mock_server):
@@ -29,6 +30,7 @@ def test_valid_response_from_server(mock_server):
 
         assert step_result.was_successful() is True
         assert_that(server, had_request().with_path("/holds").and_method("GET"))
+        assert valid_src_response == step_result.get_result()
 
 
 def test_404_response_from_server(mock_server):

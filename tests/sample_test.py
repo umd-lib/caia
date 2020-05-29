@@ -1,8 +1,8 @@
 import requests
-from hamcrest import assert_that
 from brunns.matchers.response import is_response
-from mbtest.matchers import had_request
+from hamcrest import assert_that
 from mbtest.imposters import Imposter, Predicate, Response, Stub
+from mbtest.matchers import had_request
 
 
 def test_sanity():

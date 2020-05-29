@@ -1,9 +1,10 @@
-from caia.core.step import Step, StepResult
-from caia.circrequests.circrequests_job_config import CircrequestsJobConfig
-import requests
-import logging
 import json
+import logging
 from typing import List
+
+from caia.circrequests.circrequests_job_config import CircrequestsJobConfig
+from caia.core.http import http_post_request
+from caia.core.step import Step, StepResult
 
 logger = logging.getLogger(__name__)
 
@@ -25,20 +26,12 @@ class SendToDest(Step):
         headers = {'X-API-Key': self.job_config['caiasoft_api_key'], 'Content-Type': 'application/json'}
         dest_url = self.job_config['dest_url']
 
-        logger.info(f"Sending POST request to {dest_url}")
-        request = requests.post(dest_url, data=body_str, headers=headers)
-        status_code = request.status_code
+        step_result = http_post_request(dest_url, headers, body_str)
 
-        logger.debug(f"POST request completed with status code: {status_code}")
-        if status_code == requests.codes.ok:
-            step_result = StepResult(True, request.text)
-            self.log_response(request.text)
-            return step_result
-        else:
-            error = f"POST to '{dest_url}' failed with a status code of {status_code}"
-            self.errors.append(error)
-            step_result = StepResult(False, request.text, self.errors)
-            return step_result
+        if step_result.was_successful():
+            SendToDest.log_response(step_result.get_result())
+
+        return step_result
 
     @staticmethod
     def log_response(response_body_text: str) -> None:

@@ -1,9 +1,10 @@
-from caia.core.step import Step, StepResult
-from caia.circrequests.circrequests_job_config import CircrequestsJobConfig
-from typing import Any, Dict, List, cast
-from caia.circrequests.diff import diff
 import json
 import logging
+from typing import Any, Dict, List, cast
+
+from caia.circrequests.circrequests_job_config import CircrequestsJobConfig
+from caia.circrequests.diff import diff
+from caia.core.step import Step, StepResult
 
 logger = logging.getLogger(__name__)
 
