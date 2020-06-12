@@ -46,7 +46,8 @@ class DiffAgainstLastSuccess(Step):
         key_field = self.job_config.application_config['circrequests']['source_key_field']
 
         # Generate the diff result
-        diff_result = diff(key_field, last_success, current)
+        denied_keys = []
+        diff_result = diff(key_field, last_success, current, denied_keys)
 
         step_result = StepResult(True, diff_result)
         return step_result

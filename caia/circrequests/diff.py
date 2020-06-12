@@ -44,7 +44,8 @@ class DiffResult:
 
 
 def diff(key_field: str,
-         previous: List[Dict[str, str]], current: List[Dict[str, str]]) -> DiffResult:
+         previous: List[Dict[str, str]], current: List[Dict[str, str]],
+         denied_keys: List[str]) -> DiffResult:
     """
     Compares Dictionary entries in the lists based on the given key_field,
     returning a DiffResult of new/modified/deleted entries.
@@ -69,12 +70,25 @@ def diff(key_field: str,
     # Keys in both lists (modified?)
     possibly_modified_keys = list(set(previous_keys) & set(current_keys))
     modified_entries = []
+    modified_keys = []
     for key in possibly_modified_keys:
         list1_value = previous_as_dict[key]
         list2_value = current_as_dict[key]
 
         if list1_value != list2_value:
             modified_entries.append(current_as_dict[key])
+            modified_keys.append(key)
+
+    # Handle denied keys
+    # Denied keys in present in current list
+    denied_keys_in_current_set = set(current_keys).intersection(set(denied_keys))
+    # Combine new and modified keys into a single set
+    new_or_modified_keys_set = set(new_keys) | set(modified_keys)
+    # Denied keys in current, and not already in "new or modified" set need to be added
+    denied_keys_to_add = denied_keys_in_current_set - new_or_modified_keys_set
+
+    for key in denied_keys_to_add:
+        new_entries.append(current_as_dict[key])
 
     diff_result = DiffResult(new_entries, modified_entries, deleted_entries)
     return diff_result
