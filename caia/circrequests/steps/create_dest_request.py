@@ -26,6 +26,7 @@ class CreateDestRequest(Step):
         CaiaSoft.
         """
         aleph_library_location = diff_result_entry["stop"]
+        patron_id = diff_result_entry["patron_id"]
 
         # Aleph library location uses CaiaSoft "stop" codes, so simply
         # pass Aleph location directly to CaiaSoft
@@ -33,7 +34,8 @@ class CreateDestRequest(Step):
         post_entry = {
             "barcode": diff_result_entry[source_key_field],
             "request_type": "PYR",
-            "stop": caiasoft_library_stop
+            "stop": caiasoft_library_stop,
+            "patron_id": patron_id
         }
 
         if request_id:
