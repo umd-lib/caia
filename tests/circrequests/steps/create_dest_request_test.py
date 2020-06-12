@@ -20,5 +20,5 @@ def test_create_dest_request():
     step_result = create_dest_request.execute()
     assert step_result.was_successful() is True
 
-    expected_request_body = '{"requests": [{"barcode": "31430023550355", "request_type": "PYR", "stop": "McKeldin"}]}'
+    expected_request_body = '{"requests": [{"barcode": "31430023550355", "request_type": "PYR", "stop": "CPMCK"}]}'
     assert expected_request_body == step_result.get_result()

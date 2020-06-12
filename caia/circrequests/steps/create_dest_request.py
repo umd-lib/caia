@@ -20,13 +20,16 @@ class CreateDestRequest(Step):
 
     @staticmethod
     def dest_post_entry(request_id: Optional[str], diff_result_entry: Dict[str, str],
-                        source_key_field: str, library_stops: Dict[str, str]) -> Dict[str, str]:
+                        source_key_field: str) -> Dict[str, str]:
         """
         Converts a single diff result entry into a format suitable for the
         CaiaSoft.
         """
         aleph_library_location = diff_result_entry["stop"]
-        caiasoft_library_stop = library_stops[aleph_library_location]
+
+        # Aleph library location uses CaiaSoft "stop" codes, so simply
+        # pass Aleph location directly to CaiaSoft
+        caiasoft_library_stop = aleph_library_location
         post_entry = {
             "barcode": diff_result_entry[source_key_field],
             "request_type": "PYR",
@@ -39,8 +42,7 @@ class CreateDestRequest(Step):
         return post_entry
 
     @staticmethod
-    def dest_post_request_body(diff_result: DiffResult, source_key_field: str,
-                               library_stops: Dict[str, str]) -> str:
+    def dest_post_request_body(diff_result: DiffResult, source_key_field: str) -> str:
         """
         Returns the JSON to send to CaiaSoft from the given DiffResult
         """
@@ -48,7 +50,7 @@ class CreateDestRequest(Step):
         requests = []
         for entry in diff_result.new_entries:
             request_id = None
-            post_entry = CreateDestRequest.dest_post_entry(request_id, entry, source_key_field, library_stops)
+            post_entry = CreateDestRequest.dest_post_entry(request_id, entry, source_key_field)
             requests.append(post_entry)
 
         request_body = {"requests": requests}
@@ -57,9 +59,8 @@ class CreateDestRequest(Step):
 
     def execute(self) -> StepResult:
         source_key_field = self.job_config.application_config['circrequests']['source_key_field']
-        library_stops = self.job_config.application_config['library_stops']
 
-        request_body = self.dest_post_request_body(self.diff_result, source_key_field, library_stops)
+        request_body = self.dest_post_request_body(self.diff_result, source_key_field)
         step_result = StepResult(True, request_body)
         return step_result
 
