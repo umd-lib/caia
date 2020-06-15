@@ -8,6 +8,7 @@ from caia.circrequests.circrequests_job_config import CircrequestsJobConfig
 from caia.circrequests.steps.create_dest_request import CreateDestRequest
 from caia.circrequests.steps.diff_against_last_success import DiffAgainstLastSuccess
 from caia.circrequests.steps.query_source_url import QuerySourceUrl
+from caia.circrequests.steps.record_denied_keys import RecordDeniedKeys
 from caia.circrequests.steps.send_to_dest import SendToDest
 from caia.circrequests.steps.update_last_success import UpdateLastSuccess
 from caia.circrequests.steps.validate_job_preconditions import ValidateJobPreconditions
@@ -39,7 +40,8 @@ def create_job_configuration(start_time: str) -> CircrequestsJobConfig:
         'dest_url': os.getenv("CIRCREQUESTS_DEST_URL", default=""),
         'caiasoft_api_key': os.getenv('CAIASOFT_API_KEY', default=""),
         'storage_dir': os.getenv('CIRCREQUESTS_STORAGE_DIR', default=""),
-        'last_success_lookup': os.getenv('CIRCREQUESTS_LAST_SUCCESS_LOOKUP', default="")
+        'last_success_lookup': os.getenv('CIRCREQUESTS_LAST_SUCCESS_LOOKUP', default=""),
+        'denied_keys_filepath': os.getenv('CIRCREQUESTS_DENIED_KEYS', default="")
     }
 
     job_id_prefix = "caia.circrequests"
@@ -96,8 +98,14 @@ class Command(caia.core.command.Command):
         step_result = run_step(SendToDest(job_config))
 
         # Write dest response body to a file
-        write_to_file(job_config['dest_response_body_filepath'], step_result.get_result())
+        dest_response_body = step_result.get_result()
+        write_to_file(job_config['dest_response_body_filepath'], dest_response_body)
 
+        if not step_result.was_successful():
+            return CommandResult(step_result.was_successful(), step_result.get_errors())
+
+        # Record denied keys (if any)
+        step_result = run_step(RecordDeniedKeys(job_config, dest_response_body))
         if not step_result.was_successful():
             return CommandResult(step_result.was_successful(), step_result.get_errors())
 

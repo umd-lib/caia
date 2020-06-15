@@ -6,7 +6,8 @@ def test_diff_against_last_success():
     config = {
         'last_success_filepath': 'tests/resources/circrequests/valid_src_response_with_no_entries.json',
         'storage_dir': '/tmp',
-        'last_success_lookup': 'tests/storage/circrequests/circrequests_last_success.txt'
+        'last_success_lookup': 'tests/storage/circrequests/circrequests_last_success.txt',
+        'denied_keys_filepath': 'tests/storage/circrequests/circrequests_denied_keys.json'
     }
 
     job_config = CircrequestsJobConfig(config, 'test')

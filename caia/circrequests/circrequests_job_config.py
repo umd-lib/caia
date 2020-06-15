@@ -1,6 +1,7 @@
 import logging
 import os
-from typing import Dict
+from typing import Dict, List
+import json
 
 from caia.core.job_config import JobConfig
 
@@ -48,3 +49,12 @@ class CircrequestsJobConfig(JobConfig):
 
         last_success_lookup = config['last_success_lookup']
         self["last_success_filepath"] = get_last_success_filepath(last_success_lookup)
+
+        # Generate an empty "denied_keys" file, if it does not exist
+        if self['denied_keys_filepath']:
+            denied_keys_filepath = self['denied_keys_filepath']
+            if not os.path.exists(denied_keys_filepath):
+                logger.warning(f"denied_keys_filepath file at '{denied_keys_filepath} was not found. Creating default.")
+                denied_keys: List[str] = []
+                with open(denied_keys_filepath, "w") as fp:
+                    json.dump(denied_keys, fp)

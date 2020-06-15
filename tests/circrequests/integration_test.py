@@ -1,3 +1,4 @@
+import json
 import os
 import tempfile
 
@@ -8,11 +9,13 @@ from mbtest.matchers import had_request
 from caia.commands.circrequests import Command
 
 
-def setup_environment(imposter, temp_storage_dir, temp_success_filename):
+def setup_environment(imposter, temp_storage_dir, temp_success_filename,
+                      temp_denied_keys_filename="storage/circrequests/circrequests_denied_keys.json"):
     os.environ["CIRCREQUESTS_SOURCE_URL"] = f"{imposter.url}/src"
     os.environ["CIRCREQUESTS_DEST_URL"] = f"{imposter.url}/dest"
     os.environ["CIRCREQUESTS_STORAGE_DIR"] = temp_storage_dir
     os.environ["CIRCREQUESTS_LAST_SUCCESS_LOOKUP"] = temp_success_filename
+    os.environ["CIRCREQUESTS_DENIED_KEYS"] = temp_denied_keys_filename
     os.environ["CAIASOFT_API_KEY"] = 'TEST_KEY'
 
 
@@ -29,8 +32,8 @@ def test_successful_job(mock_server):
         Stub(Predicate(path="/dest", method="POST"), Response(body=valid_dest_response)),
         ])
 
-    # Create a temporary file to use as last success lookup
     try:
+        # Create a temporary file to use as last success lookup
         [temp_file_handle, temp_success_filename] = tempfile.mkstemp()
         with open(temp_success_filename, 'w') as f:
             f.write('etc/circrequests_FIRST.json')
@@ -170,3 +173,52 @@ def test_dest_returns_404_error(mock_server):
         # Clean up the temporary file
         os.close(temp_file_handle)
         os.remove(temp_success_filename)
+
+
+def test_dest_returns_denied_key(mock_server):
+    with open("tests/resources/circrequests/valid_src_response.json") as file:
+        valid_src_response = file.read()
+
+    with open("tests/resources/circrequests/valid_dest_response_denied_key.json") as file:
+        valid_dest_response_denied_key = file.read()
+
+    # Set up mock server with required behavior
+    imposter = Imposter([
+        Stub(Predicate(path="/src"), Response(body=valid_src_response)),
+        Stub(Predicate(path="/dest", method="POST"), Response(body=valid_dest_response_denied_key)),
+        ])
+
+    try:
+        # Create a temporary file to use as last success lookup
+        [temp_success_file_handle, temp_success_filename] = tempfile.mkstemp()
+        with open(temp_success_filename, 'w') as f:
+            f.write('etc/circrequests_FIRST.json')
+
+        # Create a temporary file to use as denied keys file
+        [temp_denied_keys_file_handle, temp_denied_keys_filename] = tempfile.mkstemp()
+        with open(temp_denied_keys_filename, 'w') as f:
+            f.write('[]')
+
+        with tempfile.TemporaryDirectory() as temp_storage_dir, mock_server(imposter) as server:
+            setup_environment(imposter, temp_storage_dir, temp_success_filename, temp_denied_keys_filename)
+
+            start_time = '20200521132905'
+            args = []
+
+            command = Command()
+            result = command(start_time, args)
+            assert result.was_successful() is True
+
+            assert_that(server, had_request().with_path("/src").and_method("GET"))
+            assert_that(server, had_request().with_path("/dest").and_method("POST"))
+    finally:
+        # Clean up the temporary files
+        os.close(temp_success_file_handle)
+        os.remove(temp_success_filename)
+
+        os.close(temp_denied_keys_file_handle)
+        # Verify that "denied keys" file contains denied entry
+        with open(temp_denied_keys_filename) as file:
+            denied_keys = json.load(file)
+            assert denied_keys == ['31430023550355']
+        os.remove(temp_denied_keys_filename)
