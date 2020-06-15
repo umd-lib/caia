@@ -8,11 +8,13 @@ from mbtest.matchers import had_request
 from caia.commands.circrequests import Command
 
 
-def setup_environment(imposter, temp_storage_dir, temp_success_filename):
+def setup_environment(imposter, temp_storage_dir, temp_success_filename,
+                      temp_denied_keys_filename="storage/circrequests/circrequests_denied_keys.json"):
     os.environ["CIRCREQUESTS_SOURCE_URL"] = f"{imposter.url}/src"
     os.environ["CIRCREQUESTS_DEST_URL"] = f"{imposter.url}/dest"
     os.environ["CIRCREQUESTS_STORAGE_DIR"] = temp_storage_dir
     os.environ["CIRCREQUESTS_LAST_SUCCESS_LOOKUP"] = temp_success_filename
+    os.environ["CIRCREQUESTS_DENIED_KEYS"] = temp_denied_keys_filename
     os.environ["CAIASOFT_API_KEY"] = 'TEST_KEY'
 
 
@@ -29,8 +31,8 @@ def test_successful_job(mock_server):
         Stub(Predicate(path="/dest", method="POST"), Response(body=valid_dest_response)),
         ])
 
-    # Create a temporary file to use as last success lookup
     try:
+        # Create a temporary file to use as last success lookup
         [temp_file_handle, temp_success_filename] = tempfile.mkstemp()
         with open(temp_success_filename, 'w') as f:
             f.write('etc/circrequests_FIRST.json')

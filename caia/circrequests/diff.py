@@ -80,7 +80,7 @@ def diff(key_field: str,
             modified_keys.append(key)
 
     # Handle denied keys
-    # Denied keys in present in current list
+    # Denied keys present in current list
     denied_keys_in_current_set = set(current_keys).intersection(set(denied_keys))
     # Combine new and modified keys into a single set
     new_or_modified_keys_set = set(new_keys) | set(modified_keys)
