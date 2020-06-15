@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 class RecordDeniedKeys(Step):
     """
-    Records the filepath of the last successful source response.
+    Records the list of denied keys (if any).
     """
     def __init__(self, job_config: CircrequestsJobConfig, dest_response_body: str):
         self.job_config = job_config
