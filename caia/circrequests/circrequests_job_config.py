@@ -55,6 +55,6 @@ class CircrequestsJobConfig(JobConfig):
             denied_keys_filepath = self['denied_keys_filepath']
             if not os.path.exists(denied_keys_filepath):
                 logger.warning(f"denied_keys_filepath file at '{denied_keys_filepath} was not found. Creating default.")
-                denied_keys:List[str] = []
+                denied_keys: List[str] = []
                 with open(denied_keys_filepath, "w") as fp:
                     json.dump(denied_keys, fp)
