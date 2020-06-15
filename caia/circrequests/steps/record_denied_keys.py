@@ -28,7 +28,7 @@ class RecordDeniedKeys(Step):
                 denied_keys.append(result['item'])
 
         if denied_keys:
-            logger.info(f"There were {len(denied_keys)} key(s):")
+            logger.info(f"Denied key(s):")
             logger.info(denied_keys)
 
         # Always write out denied keys, even if there are none
