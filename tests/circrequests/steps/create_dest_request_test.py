@@ -22,6 +22,6 @@ def test_create_dest_request():
     assert step_result.was_successful() is True
 
     expected_request_body = \
-        '{"requests": [{"barcode": "31430023550355", "request_type": "PYR", "stop": "CPMCK", ' \
+        '{"requests": [{"barcode": "31430023550355", "request_type": "PYR", ' \
         '"patron_id": "000000224432"}]}'
     assert expected_request_body == step_result.get_result()
