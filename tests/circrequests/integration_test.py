@@ -222,4 +222,3 @@ def test_dest_returns_denied_key(mock_server):
             denied_keys = json.load(file)
             assert denied_keys == ['31430023550355']
         os.remove(temp_denied_keys_filename)
-
