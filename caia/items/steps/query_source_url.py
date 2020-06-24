@@ -12,15 +12,16 @@ class QuerySourceUrl(Step):
     """
     Queries the source url and stores a successful response.
     """
-    def __init__(self, job_config: ItemsJobConfig, last_timestamp: str):
+    def __init__(self, job_config: ItemsJobConfig, last_timestamp: str, current_timestamp: str):
         self.job_config = job_config
         self.last_timestamp = last_timestamp
+        self.current_timestamp = current_timestamp
         self.errors: List[str] = []
 
     def execute(self) -> StepResult:
         source_url = self.job_config['source_url']
         headers = {'Content-Type': 'application/json'}
-        query_params = {"last_timestamp": self.last_timestamp}
+        query_params = {"starttime": self.last_timestamp, "endtime": self.current_timestamp}
 
         return http_get_request(source_url, headers, query_params)
 

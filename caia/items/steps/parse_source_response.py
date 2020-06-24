@@ -17,7 +17,7 @@ class ParseSourceResponse(Step):
     def execute(self) -> StepResult:
         obj = json.loads(self.source_response)
         new_items = obj['new']
-        updated_items = obj['updated']
+        updated_items = obj['update']
 
         source_items = SourceItems(new_items, updated_items)
 

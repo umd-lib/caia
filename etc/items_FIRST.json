@@ -1,5 +1,6 @@
 {
-  "query_range_end": "2020-05-20T23:59:59Z",
+  "starttime": "20200530",
+  "endtime": "20200601",
   "new": [],
   "updated": []
 }

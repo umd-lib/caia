@@ -21,7 +21,7 @@ class GetLastTimestamp(Step):
         """
         Parses a source response for the last timestamp
         """
-        last_timestamp_field = "query_range_end"
+        last_timestamp_field = "endtime"
         try:
             last_timestamp = response[last_timestamp_field] or ""
         except KeyError:

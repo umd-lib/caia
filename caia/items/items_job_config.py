@@ -41,10 +41,9 @@ class ItemsJobConfig(JobConfig):
         self['dest_updated_items_response_body_filepath'] = dest_updated_items_response_body_filepath
 
         # Use "last_success_lookup" to populate the "last_success_filepath"
-        # value, which is the actual JSON file to use in the "diff" comparison
-        # against the result of the current job. If the "last_success_lookup"
-        # file does not exist, create one, with "etc/items_FIRST.json"
-        # as the JSON file it points to.
+        # value, which is a JSON file containing the "last_update_time".
+        # If the "last_success_lookup" file does not exist, create one,
+        # with "etc/items_FIRST.json" as the JSON file it points to.
         if self['last_success_lookup']:
             last_success_lookup_filepath = self['last_success_lookup']
             if not os.path.exists(last_success_lookup_filepath):

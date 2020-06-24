@@ -1,6 +1,7 @@
 import argparse
 import logging
 import os
+from datetime import datetime
 
 import caia.core.command
 from caia.core.command import CommandResult
@@ -72,7 +73,9 @@ class Command(caia.core.command.Command):
         last_timestamp = step_result.get_result()
 
         # Query source URL
-        step_result = run_step(QuerySourceUrl(job_config, last_timestamp))
+        now = datetime.now()
+        current_timestamp = now.strftime("%Y%m%d%H%M%S")
+        step_result = run_step(QuerySourceUrl(job_config, last_timestamp, current_timestamp))
         write_to_file(job_config["source_response_body_filepath"], step_result.result)
         if not step_result.was_successful():
             return CommandResult(step_result.was_successful(), step_result.get_errors())

@@ -6,7 +6,6 @@ from caia.items.steps.get_last_timestamp import GetLastTimestamp
 
 def test_get_last_timestamp_default_timestamp():
     config = {
-        'last_success_filepath': 'tests/resources/items/valid_src_response_with_no_entries.json',
         'storage_dir': '/tmp',
         'last_success_lookup': 'tests/storage/items/items_last_success.txt'
     }
@@ -19,7 +18,7 @@ def test_get_last_timestamp_default_timestamp():
     assert step_result.was_successful() is True
 
     last_timestamp = step_result.get_result()
-    assert "2020-05-20T23:59:59Z" == last_timestamp
+    assert "20200601" == last_timestamp
 
 
 def test_get_last_timestamp_no_timestamp_in_file():
