@@ -1,0 +1,9 @@
+{
+"starttime":"20200601",
+"endtime":"20200603",
+"new":[],
+"update":[
+  {"barcode": "31430035848219", "title": "Speaking for vice : homosexuality in the art of Charles Demuth, Marsden Hartley, and the first Ameri", "author": "Weinberg, Jonathan, 1957-", "volume": null, "call_number": "ND237.D36W45 1993", "collection": "OTHER - CPART STACK", "oclc": "27684835", "issn": null, "isbn": "0300053614 (acid-free paper)", "edition": null, "publisher": "New Haven : Yale University Press, c1993", "bib_record_nbr": "002031800", "flag": null},
+  {"barcode": "31430047924578", "title": "Letters of Charles Demuth, American artist, 1883-1935", "author": "Demuth, Charles, 1883-1935", "volume": null, "call_number": "ND237.D36A3 2000", "collection": "OTHER - CPART STACK", "oclc": "43186134", "issn": null, "isbn": "1566397804 (cloth : alk. paper)", "edition": null, "publisher": "Philadelphia : Temple University Press, 2000", "bib_record_nbr": "002543381", "flag": null}
+]
+}
