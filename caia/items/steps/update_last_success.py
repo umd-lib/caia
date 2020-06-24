@@ -1,7 +1,10 @@
+import logging
 from typing import List
 
 from caia.core.step import Step, StepResult
 from caia.items.items_job_config import ItemsJobConfig
+
+logger = logging.getLogger(__name__)
 
 
 class UpdateLastSuccess(Step):
@@ -18,10 +21,12 @@ class UpdateLastSuccess(Step):
         storage_dir = self.job_config['storage_dir']
         last_success_filepath = self.job_config.generate_filepath(storage_dir, "source_response_body", "json")
         self.job_config['last_success_filepath'] = last_success_filepath
+
         with open(last_success_lookup, "w") as fp:
             last_success = self.job_config['last_success_filepath']
             fp.write(last_success)
 
+        logger.info(f"Last success filepath updated to {last_success_filepath}")
         step_result = StepResult(True, None)
         return step_result
 
