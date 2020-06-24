@@ -43,7 +43,7 @@ def parse_item(item_from_source: Dict[str, str]) -> Dict[str, str]:
 
     # True if "None" values from source should not be transmitted to
     # the destination, false otherwise
-    suppress_null_values = True
+    suppress_null_values = False
 
     item_map = {}
     for source_key, dest_key in source_to_dest_key_mapping.items():
