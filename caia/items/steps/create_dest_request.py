@@ -8,7 +8,7 @@ from caia.items.source_items import SourceItems
 logger = logging.getLogger(__name__)
 
 
-def parse_item(item_from_source: Dict[str, str], suppress_null_values:bool) -> Dict[str, str]:
+def parse_item(item_from_source: Dict[str, str], suppress_null_values: bool) -> Dict[str, str]:
     """
     Converts source map into a destination map using the keys expected at the
     destination.
