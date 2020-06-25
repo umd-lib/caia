@@ -63,5 +63,3 @@ def test_successful_job(mock_server):
         # Clean up the temporary file
         os.close(temp_file_handle)
         os.remove(temp_success_filename)
-
-

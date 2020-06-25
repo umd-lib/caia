@@ -25,7 +25,7 @@ class QuerySourceUrl(Step):
         headers = {'Content-Type': 'application/json'}
         query_params = {"starttime": self.last_timestamp, "endtime": self.current_timestamp}
         if self.next_item is not None:
-            query_params['nextitem'] = self.next_item
+            query_params['nextitem'] = str(self.next_item)
 
         return http_get_request(source_url, headers, query_params)
 
