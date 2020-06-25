@@ -13,7 +13,7 @@ class QuerySourceUrl(Step):
     Queries the source url and stores a successful response.
     """
     def __init__(self, job_config: ItemsJobConfig, last_timestamp: str, current_timestamp: str,
-                 next_item: Optional[int]):
+                 next_item: Optional[str]):
         self.job_config = job_config
         self.last_timestamp = last_timestamp
         self.current_timestamp = current_timestamp
@@ -25,7 +25,7 @@ class QuerySourceUrl(Step):
         headers = {'Content-Type': 'application/json'}
         query_params = {"starttime": self.last_timestamp, "endtime": self.current_timestamp}
         if self.next_item is not None:
-            query_params['nextitem'] = str(self.next_item)
+            query_params['nextitem'] = self.next_item
 
         return http_get_request(source_url, headers, query_params)
 

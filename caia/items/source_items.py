@@ -5,7 +5,7 @@ class SourceItems:
     """
     Encapsulates an "items" source response
     """
-    def __init__(self, new_items: List[Dict[str, str]], updated_items: List[Dict[str, str]], next_item: Optional[int]):
+    def __init__(self, new_items: List[Dict[str, str]], updated_items: List[Dict[str, str]], next_item: Optional[str]):
         """
         Creates a SourceItems object from the given source response.
         """
@@ -25,9 +25,9 @@ class SourceItems:
         """
         return self.updated_items
 
-    def get_next_item(self) -> Optional[int]:
+    def get_next_item(self) -> Optional[str]:
         """
-        Returns the index of the next item to request from the source, or None
+        Returns the key of the next item to request from the source, or None
         if there are no more items
         """
         return self.next_item

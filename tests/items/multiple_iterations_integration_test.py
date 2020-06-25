@@ -32,7 +32,8 @@ def test_successful_job(mock_server):
 
     # Set up mock server with required behavior
     imposter = Imposter([
-        Stub(Predicate(path="/src", query={"nextitem": 3}), Response(body=valid_src_iteration_1_response)),
+        Stub(Predicate(path="/src", query={"nextitem": "003375441000010"}),
+             Response(body=valid_src_iteration_1_response)),
         Stub(Predicate(path="/src",), Response(body=valid_src_iteration_0_response)),
         Stub(Predicate(path="/dest/new", method="POST"), Response(body=valid_dest_new_items_response)),
         Stub(Predicate(path="/dest/updated", method="POST"), Response(body=valid_dest_updated_items_response)),
@@ -55,7 +56,7 @@ def test_successful_job(mock_server):
             assert result.was_successful() is True
 
             assert_that(server, had_request().with_path("/src").with_method("GET").with_query(
-                has_entries({'nextitem': '3'})).with_times(1))
+                has_entries({'nextitem': '003375441000010'})).with_times(1))
             assert_that(server, had_request().with_path("/src").and_method("GET").with_times(2))
             assert_that(server, had_request().with_path("/dest/new").and_method("POST"))
             assert_that(server, had_request().with_path("/dest/updated").and_method("POST"))

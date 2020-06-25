@@ -152,5 +152,5 @@ class Command(caia.core.command.Command):
             if next_item is None:
                 return CommandResult(step_result.was_successful(), step_result.get_errors())
             else:
-                logger.info(f"next_item is {next_item}. Commencing next iteration.")
+                logger.info(f"next_item is '{next_item}'. Commencing next iteration.")
                 iteration_count = iteration_count + 1
