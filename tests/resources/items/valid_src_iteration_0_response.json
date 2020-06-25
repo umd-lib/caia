@@ -1,0 +1,13 @@
+{
+"starttime":"20200601",
+"endtime":"20200603",
+"nextitem": 3,
+"new":[
+  {"barcode": "31430051000001", "title": "New Item 1", "flag": null},
+  {"barcode": "31430052000002", "title": "New Item 2", "flag": null}
+],
+"update":[
+  {"barcode": "31430051999991", "title": "Updated Item 1", "flag": null},
+  {"barcode": "31430051999992", "title": "Updated Item 2", "flag": null}
+]
+}
