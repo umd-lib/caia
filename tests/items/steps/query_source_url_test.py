@@ -33,7 +33,7 @@ def test_valid_response_from_server(mock_server):
         }
         job_config = ItemsJobConfig(config, 'test')
 
-        query_source_url = QuerySourceUrl(job_config, last_timestamp, current_timestamp)
+        query_source_url = QuerySourceUrl(job_config, last_timestamp, current_timestamp, None)
 
         step_result = query_source_url.execute()
 
@@ -58,7 +58,7 @@ def test_404_response_from_server(mock_server):
         last_timestamp = "20200601"
         current_timestamp = "20200603"
 
-        query_source_url = QuerySourceUrl(job_config, last_timestamp, current_timestamp)
+        query_source_url = QuerySourceUrl(job_config, last_timestamp, current_timestamp, None)
 
         step_result = query_source_url.execute()
 
@@ -79,7 +79,7 @@ def test_server_does_not_exist():
     last_timestamp = "20200601"
     current_timestamp = "20200603"
 
-    query_source_url = QuerySourceUrl(job_config, last_timestamp, current_timestamp)
+    query_source_url = QuerySourceUrl(job_config, last_timestamp, current_timestamp, None)
 
     with pytest.raises(requests.exceptions.ConnectionError):
         query_source_url.execute()

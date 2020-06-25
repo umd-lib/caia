@@ -20,26 +20,6 @@ class ItemsJobConfig(JobConfig):
     def __init__(self, config: Dict[str, str], job_id_prefix: str = '', timestamp: str = ""):
         super().__init__(config, job_id_prefix, timestamp)
 
-        storage_dir = self["storage_dir"]
-        source_response_body_filepath = self.generate_filepath(storage_dir, "source_response_body", "json")
-        self['source_response_body_filepath'] = source_response_body_filepath
-
-        dest_new_items_request_body_filepath = \
-            self.generate_filepath(storage_dir, "dest_new_items_request_body", "json")
-        self['dest_new_items_request_body_filepath'] = dest_new_items_request_body_filepath
-
-        dest_new_items_response_body_filepath = \
-            self.generate_filepath(storage_dir, "dest_new_items_response_body", "json")
-        self['dest_new_items_response_body_filepath'] = dest_new_items_response_body_filepath
-
-        dest_updated_items_request_body_filepath = \
-            self.generate_filepath(storage_dir, "dest_updated_items_request_body", "json")
-        self['dest_updated_items_request_body_filepath'] = dest_updated_items_request_body_filepath
-
-        dest_updated_items_response_body_filepath = \
-            self.generate_filepath(storage_dir, "dest_updated_items_response_body", "json")
-        self['dest_updated_items_response_body_filepath'] = dest_updated_items_response_body_filepath
-
         # Use "last_success_lookup" to populate the "last_success_filepath"
         # value, which is a JSON file containing the "last_update_time".
         # If the "last_success_lookup" file does not exist, create one,
@@ -54,3 +34,32 @@ class ItemsJobConfig(JobConfig):
 
         last_success_lookup = config['last_success_lookup']
         self["last_success_filepath"] = get_last_success_filepath(last_success_lookup)
+
+    def set_iteration(self, iteration: int) -> None:
+        """
+        Sets the iteration for the job, and updates the filepaths for job
+        artifacts.
+        """
+        self["iteration"] = str(iteration)
+
+        storage_dir = self["storage_dir"]
+
+        source_response_body_filepath = \
+            self.generate_filepath(storage_dir, "source_response_body", "json", iteration)
+        self['source_response_body_filepath'] = source_response_body_filepath
+
+        dest_new_items_request_body_filepath = \
+            self.generate_filepath(storage_dir, "dest_new_items_request_body", "json", iteration)
+        self['dest_new_items_request_body_filepath'] = dest_new_items_request_body_filepath
+
+        dest_new_items_response_body_filepath = \
+            self.generate_filepath(storage_dir, "dest_new_items_response_body", "json", iteration)
+        self['dest_new_items_response_body_filepath'] = dest_new_items_response_body_filepath
+
+        dest_updated_items_request_body_filepath = \
+            self.generate_filepath(storage_dir, "dest_updated_items_request_body", "json", iteration)
+        self['dest_updated_items_request_body_filepath'] = dest_updated_items_request_body_filepath
+
+        dest_updated_items_response_body_filepath = \
+            self.generate_filepath(storage_dir, "dest_updated_items_response_body", "json", iteration)
+        self['dest_updated_items_response_body_filepath'] = dest_updated_items_response_body_filepath

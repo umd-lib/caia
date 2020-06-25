@@ -1,0 +1,81 @@
+{
+  "imposters": [
+    {
+      "port": 4545,
+      "protocol": "http",
+      "stubs": [
+        {
+          "responses": [
+            { "is": { "statusCode": 200,
+                      "body": "<%- stringify('responses/items_success_multiple_iterations_1_source_body.ejs') %>"
+            }}],
+          "predicates": [
+            {
+              "equals": {
+                "path": "/items/source",
+                "method": "GET",
+                "headers": { "Content-Type": "application/json" },
+                "query": { "nextitem": "003375441000010" }
+              }
+            }
+          ]
+        },
+        {
+          "responses": [
+            { "is": { "statusCode": 200,
+                      "body": "<%- stringify('responses/items_success_multiple_iterations_0_source_body.ejs') %>"
+            }}],
+          "predicates": [
+            {
+              "equals": {
+                "path": "/items/source",
+                "method": "GET",
+                "headers": { "Content-Type": "application/json" }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "port": 6565,
+      "protocol": "http",
+      "stubs": [
+        {
+          "responses": [
+            { "is": { "statusCode": 200,
+                      "body": "<%- stringify('responses/items_success_dest_incoming_body.ejs') %>"
+                    }
+            }
+          ],
+          "predicates": [
+              {
+                "equals": {
+                  "path": "/items/dest/incoming",
+                  "method": "POST",
+                  "headers": { "Content-Type": "application/json" }
+                }
+              }
+          ]
+        },
+        {
+          "responses": [
+            { "is": { "statusCode": 200,
+                      "body": "<%- stringify('responses/items_success_dest_updates_body.ejs') %>"
+                    }
+            }
+          ],
+          "predicates": [
+            {
+              "equals": {
+                "path": "/items/dest/updates",
+                "method": "POST",
+                "headers": { "Content-Type": "application/json" }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

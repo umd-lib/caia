@@ -1,7 +1,7 @@
 import os
 import uuid
 from datetime import datetime
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 
 import yaml
 
@@ -28,14 +28,20 @@ class JobConfig(Dict[str, str]):
     def application_config(self) -> Any:
         return self.__application_config
 
-    def generate_filepath(self, base_dir: str, file_descriptor: str, file_extension: str) -> str:
+    def generate_filepath(self, base_dir: str, file_descriptor: str, file_extension: str,
+                          iteration_count: Optional[int] = None) -> str:
         """
         Returns a fully qualified filepath, based one this JobConfig, and
-        the given base directory, file descriptor, and extension
+        the given base directory, file descriptor, and extension, and
+        an optional iteration count
         """
         job_id = self['job_id']
 
-        base_filename = f"{job_id}.{file_descriptor}.{file_extension}"
+        iteration = ""
+        if iteration_count is not None:
+            iteration = f"-{iteration_count}"
+
+        base_filename = f"{job_id}{iteration}.{file_descriptor}.{file_extension}"
         return os.path.join(base_dir, base_filename)
 
     def __str__(self) -> str:

@@ -60,6 +60,19 @@ def test_generate_filepath():
     assert filepath2 == f"storage/foo/{job_id}.abc.json"
 
 
+def test_generate_filepath_with_iteration_count():
+    config = {}
+
+    job_config = JobConfig(config, 'test')
+    job_id = job_config["job_id"]
+
+    filepath1 = job_config.generate_filepath("/tmp", "test_file", "txt", 1)
+    assert filepath1 == f"/tmp/{job_id}-1.test_file.txt"
+
+    filepath2 = job_config.generate_filepath("storage/foo", "abc", "json", 42)
+    assert filepath2 == f"storage/foo/{job_id}-42.abc.json"
+
+
 def test_job_to_string():
     config = {
         'caiasoft_api_key': 'SECRET_CAIASOFT_API_KEY',

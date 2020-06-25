@@ -41,3 +41,12 @@ A successful "items" session with two new items and two updated items.
 * ITEMS_SOURCE_URL: http://localhost:4545/items/source
 * ITEMS_DEST_NEW_URL: http://localhost:6565/items/dest/incoming
 * ITEMS_DEST_UPDATES_URL: http://localhost:6565/items/dest/updates
+
+### items_success_multiple_iterations.ejs
+
+A successful "items" session where a "nextitem" in the first response
+triggers a second iteration of queries to the source URL:
+
+* ITEMS_SOURCE_URL: http://localhost:4545/items/source
+* ITEMS_DEST_NEW_URL: http://localhost:6565/items/dest/incoming
+* ITEMS_DEST_UPDATES_URL: http://localhost:6565/items/dest/updates

@@ -19,7 +19,9 @@ class UpdateLastSuccess(Step):
         last_success_lookup = self.job_config['last_success_lookup']
 
         storage_dir = self.job_config['storage_dir']
-        last_success_filepath = self.job_config.generate_filepath(storage_dir, "source_response_body", "json")
+        last_success_filepath = \
+            self.job_config.generate_filepath(
+                storage_dir, "source_response_body", "json", int(self.job_config['iteration']))
         self.job_config['last_success_filepath'] = last_success_filepath
 
         with open(last_success_lookup, "w") as fp:

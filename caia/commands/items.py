@@ -71,74 +71,86 @@ class Command(caia.core.command.Command):
             return CommandResult(step_result.was_successful(), step_result.get_errors())
 
         last_timestamp = step_result.get_result()
-
-        # Query source URL
         now = datetime.now()
         current_timestamp = now.strftime("%Y%m%d%H%M%S")
-        step_result = run_step(QuerySourceUrl(job_config, last_timestamp, current_timestamp))
-        write_to_file(job_config["source_response_body_filepath"], step_result.result)
-        if not step_result.was_successful():
-            return CommandResult(step_result.was_successful(), step_result.get_errors())
+        next_item = None
+        iteration_count = 1
 
-        source_response = step_result.get_result()
+        while True:
+            logger.info(f"---- Running iteration {iteration_count} ----")
+            job_config.set_iteration(iteration_count)
 
-        # Parse source response
-        step_result = run_step(ParseSourceResponse(source_response))
-        if not step_result.was_successful():
-            return CommandResult(step_result.was_successful(), step_result.get_errors())
-
-        source_items = step_result.get_result()
-        new_item_count = len(source_items.get_new_items())
-        updated_item_count = len(source_items.get_updated_items())
-
-        if new_item_count == 0:
-            logger.info("No new entries found, skipping CaiaSoft new items request.")
-        else:
-            logger.info(f"Sending {new_item_count} new item(s) to CaiaSoft.")
-            # Create new items POST body
-            step_result = run_step(CreateDestNewItemsRequest(source_items))
+            # Query source URL
+            step_result = run_step(QuerySourceUrl(job_config, last_timestamp, current_timestamp, next_item))
+            write_to_file(job_config["source_response_body_filepath"], step_result.result)
             if not step_result.was_successful():
                 return CommandResult(step_result.was_successful(), step_result.get_errors())
 
-            # Write new items request body to file
-            write_to_file(job_config['dest_new_items_request_body_filepath'], step_result.get_result())
+            source_response = step_result.get_result()
 
-            # Send POST new items data to destination
-            step_result = run_step(SendNewItemsToDest(job_config))
-
+            # Parse source response
+            step_result = run_step(ParseSourceResponse(source_response))
             if not step_result.was_successful():
                 return CommandResult(step_result.was_successful(), step_result.get_errors())
 
-            # Write new items dest response body to a file
-            write_to_file(job_config['dest_new_items_response_body_filepath'], step_result.get_result())
+            source_items = step_result.get_result()
+            new_item_count = len(source_items.get_new_items())
+            updated_item_count = len(source_items.get_updated_items())
+            next_item = source_items.get_next_item()
 
-            if not step_result.was_successful():
+            if new_item_count == 0:
+                logger.info("No new entries found, skipping CaiaSoft new items request.")
+            else:
+                logger.info(f"Sending {new_item_count} new item(s) to CaiaSoft.")
+                # Create new items POST body
+                step_result = run_step(CreateDestNewItemsRequest(source_items))
+                if not step_result.was_successful():
+                    return CommandResult(step_result.was_successful(), step_result.get_errors())
+
+                # Write new items request body to file
+                write_to_file(job_config['dest_new_items_request_body_filepath'], step_result.get_result())
+
+                # Send POST new items data to destination
+                step_result = run_step(SendNewItemsToDest(job_config))
+
+                if not step_result.was_successful():
+                    return CommandResult(step_result.was_successful(), step_result.get_errors())
+
+                # Write new items dest response body to a file
+                write_to_file(job_config['dest_new_items_response_body_filepath'], step_result.get_result())
+
+                if not step_result.was_successful():
+                    return CommandResult(step_result.was_successful(), step_result.get_errors())
+
+            if updated_item_count == 0:
+                logger.info("No updated entries found, skipping CaiaSoft updated items request.")
+            else:
+                logger.info(f"Sending {updated_item_count} updated item(s) to CaiaSoft.")
+                # Create updated items POST body
+                step_result = run_step(CreateDestUpdatedItemsRequest(source_items))
+                if not step_result.was_successful():
+                    return CommandResult(step_result.was_successful(), step_result.get_errors())
+
+                # Write updated items request body to file
+                write_to_file(job_config['dest_updated_items_request_body_filepath'], step_result.get_result())
+
+                # Send POST updated items data to destination
+                step_result = run_step(SendUpdatedItemsToDest(job_config))
+
+                if not step_result.was_successful():
+                    return CommandResult(step_result.was_successful(), step_result.get_errors())
+
+                # Write updated items dest response body to a file
+                write_to_file(job_config['dest_updated_items_response_body_filepath'], step_result.get_result())
+
+                if not step_result.was_successful():
+                    return CommandResult(step_result.was_successful(), step_result.get_errors())
+
+            # Record job as successful
+            step_result = run_step(UpdateLastSuccess(job_config))
+
+            if next_item is None:
                 return CommandResult(step_result.was_successful(), step_result.get_errors())
-
-        if updated_item_count == 0:
-            logger.info("No updated entries found, skipping CaiaSoft updated items request.")
-        else:
-            logger.info(f"Sending {updated_item_count} updated item(s) to CaiaSoft.")
-            # Create updated items POST body
-            step_result = run_step(CreateDestUpdatedItemsRequest(source_items))
-            if not step_result.was_successful():
-                return CommandResult(step_result.was_successful(), step_result.get_errors())
-
-            # Write updated items request body to file
-            write_to_file(job_config['dest_updated_items_request_body_filepath'], step_result.get_result())
-
-            # Send POST updated items data to destination
-            step_result = run_step(SendUpdatedItemsToDest(job_config))
-
-            if not step_result.was_successful():
-                return CommandResult(step_result.was_successful(), step_result.get_errors())
-
-            # Write updated items dest response body to a file
-            write_to_file(job_config['dest_updated_items_response_body_filepath'], step_result.get_result())
-
-            if not step_result.was_successful():
-                return CommandResult(step_result.was_successful(), step_result.get_errors())
-
-        # Record job as successful
-        step_result = run_step(UpdateLastSuccess(job_config))
-        return CommandResult(step_result.was_successful(), step_result.get_errors())
+            else:
+                logger.info(f"next_item is '{next_item}'. Commencing next iteration.")
+                iteration_count = iteration_count + 1
