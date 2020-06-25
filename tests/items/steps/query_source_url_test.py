@@ -12,10 +12,18 @@ def test_valid_response_from_server(mock_server):
     with open("tests/resources/items/valid_src_response.json") as file:
         valid_src_response = file.read()
 
-    timestamp = "2020-05-20T00:00:00Z"
+    last_timestamp = "20200601"
+    current_timestamp = "20200603"
+
     # Set up mock server with required behavior
-    imposter = Imposter(Stub(Predicate(path="/items", query={"last_timestamp": timestamp}, operator="deepEquals"),
-                             Response(body=valid_src_response)))
+    imposter = Imposter(
+                   Stub(
+                       Predicate(path="/items",
+                                 query={"starttime": last_timestamp, "endtime": current_timestamp},
+                                 operator="deepEquals"),
+                       Response(body=valid_src_response)
+                   )
+                )
 
     with mock_server(imposter) as server:
         config = {
@@ -25,7 +33,7 @@ def test_valid_response_from_server(mock_server):
         }
         job_config = ItemsJobConfig(config, 'test')
 
-        query_source_url = QuerySourceUrl(job_config, timestamp)
+        query_source_url = QuerySourceUrl(job_config, last_timestamp, current_timestamp)
 
         step_result = query_source_url.execute()
 
@@ -47,7 +55,10 @@ def test_404_response_from_server(mock_server):
         }
         job_config = ItemsJobConfig(config, 'test')
 
-        query_source_url = QuerySourceUrl(job_config, "2020-05-20T00:00:00Z")
+        last_timestamp = "20200601"
+        current_timestamp = "20200603"
+
+        query_source_url = QuerySourceUrl(job_config, last_timestamp, current_timestamp)
 
         step_result = query_source_url.execute()
 
@@ -65,7 +76,10 @@ def test_server_does_not_exist():
     }
     job_config = ItemsJobConfig(config, 'test')
 
-    query_source_url = QuerySourceUrl(job_config, "2020-05-20T00:00:00Z")
+    last_timestamp = "20200601"
+    current_timestamp = "20200603"
+
+    query_source_url = QuerySourceUrl(job_config, last_timestamp, current_timestamp)
 
     with pytest.raises(requests.exceptions.ConnectionError):
         query_source_url.execute()

@@ -11,5 +11,5 @@ def test_parse_source_response_with_valid_response():
     assert step_result.was_successful() is True
 
     source_items = step_result.get_result()
-    assert 1 == len(source_items.get_new_items())
-    assert 1 == len(source_items.get_updated_items())
+    assert 2 == len(source_items.get_new_items())
+    assert 2 == len(source_items.get_updated_items())

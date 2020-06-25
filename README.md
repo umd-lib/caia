@@ -62,6 +62,21 @@ Example usage:
 This command queries Aleph for a list of hold requests, sending new hold
 requests to CaiaSoft, using the CaiaSoft API "/circrequests" endpoint.
 
+### items
+
+Example usage:
+
+```
+> caia items
+```
+
+This command queries Aleph for a list of new and updated items.
+
+New items are sent to CaiaSoft using the CaiaSoft API "/incomingitems" endpoint.
+
+Updated items are sent to CaiaSoft using the CaiaSoft API "/itemupdates"
+endpoint.
+
 ## Development Setup
 
 See [docs/DevelopmentSetup.md](docs/DevelopmentSetup.md).

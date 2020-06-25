@@ -41,7 +41,8 @@ class SendUpdatedItemsToDest(Step):
         failed_count = total_count - updated_count
         errors = response["errors"]
 
-        logger.info(f"Total requests: {total_count}, Updated: {updated_count}, Error: {errors}")
+        logger.info(f"Updated items request: {total_count}, Updated: {updated_count}, "
+                    f"Failed: {failed_count}, Errors: {errors}")
         if failed_count == 0 and len(errors) == 0:
             logger.info("SUCCESS - All items were updated")
         else:

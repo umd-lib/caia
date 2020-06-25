@@ -1,7 +1,11 @@
+import logging
+
 from typing import List
 
 from caia.circrequests.circrequests_job_config import CircrequestsJobConfig
 from caia.core.step import Step, StepResult
+
+logger = logging.getLogger(__name__)
 
 
 class UpdateLastSuccess(Step):
@@ -22,6 +26,7 @@ class UpdateLastSuccess(Step):
             last_success = self.job_config['last_success_filepath']
             fp.write(last_success)
 
+        logger.info(f"Last success filepath updated to {last_success_filepath}")
         step_result = StepResult(True, None)
         return step_result
 

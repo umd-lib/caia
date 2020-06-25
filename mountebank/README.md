@@ -36,7 +36,7 @@ A successful "circrequests" session with one item.
 
 ### items_success.ejs
 
-A successful "items" session with one new item and one updated.
+A successful "items" session with two new items and two updated items.
 
 * ITEMS_SOURCE_URL: http://localhost:4545/items/source
 * ITEMS_DEST_NEW_URL: http://localhost:6565/items/dest/incoming

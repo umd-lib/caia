@@ -1,0 +1,19 @@
+{
+  "starttime": "20200601",
+  "endtime": "20200603",
+  "new": [
+    {
+      "barcode": "33433096993165",
+      "collection": "DEMO",
+      "title": "Jane Eyre"
+    }
+  ],
+  "update": [
+    {
+      "barcode": "31234000023075",
+      "call_number": "R34.5",
+      "physical_desc": "317 pages",
+      "title": "Wuthering Heights"
+    }
+  ]
+}
