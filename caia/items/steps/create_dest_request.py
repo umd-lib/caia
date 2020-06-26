@@ -10,52 +10,19 @@ logger = logging.getLogger(__name__)
 
 def parse_item(item_from_source: Dict[str, str], suppress_null_values: bool) -> Dict[str, str]:
     """
-    Converts source map into a destination map using the keys expected at the
-    destination.
+    Converts source map into a destination map, sending all fields in the source
+    to the destination.
 
     If "suppress_nulls" is True, any keys with null values will _not_ be
     sent in the destination request.
     """
-    source_to_dest_key_mapping = {
-        # Mapping of keys in source entries to the key in the dest
-        # Only keys included in this mapping will be sent to the destination
-        #
-        # Mapping is:
-        # <Aleph field>:<CaiaSoft field>
-        "barcode": "barcode",
-        "title": "title",
-        "author": "author",
-        "volume": "volume",
-        "call_number": "call_number",
-        "collection": "collection",
-        "material": "material",
-        "oclc": "oclc",
-        "issn": "issn",
-        "isbn": "isbn",
-        "edition": "edition",
-        "copy_number": "copy_number",
-        "pages": "pages",
-        "publisher": "publisher",
-        "pub_place": "pub_place",
-        "pub_year": "pub_year",
-        "physical_desc": "physical_desc",
-        "item_type": "item_type",
-        "bib_location": "bib_location",
-        "bib_item_status": "bib_item_status",
-        "bib_item_code": "bib_item_code",
-        "bib_level": "bib_level",
-        "bib_item_id": "bib_item_id",
-        "bib_record_nbr": "bib_record_nbr"
-    }
-
     item_map = {}
-    for source_key, dest_key in source_to_dest_key_mapping.items():
-        if source_key in item_from_source:
-            source_value = item_from_source[source_key]
-            if suppress_null_values and source_value is None:
-                continue
+    for source_key in item_from_source:
+        source_value = item_from_source[source_key]
+        if suppress_null_values and source_value is None:
+            continue
 
-            item_map[dest_key] = item_from_source[source_key]
+        item_map[source_key] = item_from_source[source_key]
 
     return item_map
 
