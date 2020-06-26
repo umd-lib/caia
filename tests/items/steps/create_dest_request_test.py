@@ -10,14 +10,14 @@ def test_parse_item():
     assert parsed_item["title"] == "Jane Eyre"
 
 
-def test_parse_item_only_includes_keys_in_mapping():
+def test_parse_item_send_all_keys_in_source_to_destination():
     source_item = {"barcode": "33433096993165", "title": "Jane Eyre", "foobar": "quuz"}
     parsed_item = parse_item(source_item, False)
 
-    assert 2 == len(parsed_item.keys())
+    assert 3 == len(parsed_item.keys())
     assert parsed_item["barcode"] == "33433096993165"
     assert parsed_item["title"] == "Jane Eyre"
-    assert "foobar" not in parsed_item
+    assert parsed_item["foobar"] == "quuz"
 
 
 def test_parse_item_suppresses_null_values_when_true():
@@ -51,7 +51,7 @@ def test_create_dest_new_items_request():
     step_result = create_dest_new_items_request.execute()
     request_body_str = step_result.get_result()
 
-    assert '{"incoming": [{"barcode": "33433096993165", "title": "Jane Eyre", "collection": "DEMO"}]}' ==\
+    assert '{"incoming": [{"barcode": "33433096993165", "collection": "DEMO", "title": "Jane Eyre"}]}' ==\
            request_body_str
 
 
@@ -68,4 +68,4 @@ def test_create_dest_updated_items_request():
     step_result = create_dest_updated_items_request.execute()
     request_body_str = step_result.get_result()
 
-    assert '{"items": [{"barcode": "31234000023075", "title": "Wuthering Heights", "call_number": "R34.5", "physical_desc": "317 pages"}]}' == request_body_str  # noqa
+    assert '{"items": [{"barcode": "31234000023075", "call_number": "R34.5", "physical_desc": "317 pages", "title": "Wuthering Heights"}]}' == request_body_str  # noqa
