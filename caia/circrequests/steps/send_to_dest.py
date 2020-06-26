@@ -40,18 +40,22 @@ class SendToDest(Step):
         results = response["results"]
         processed_count = 0
         denied_count = 0
+        denied_entries = []
+
         for result in results:
             deny = result["deny"]
             if deny == "N":
                 processed_count = processed_count + 1
             else:
                 denied_count = denied_count + 1
+                denied_entries.append(result["item"])
 
         logger.info(f"Total requests: {request_count}, Processed: {processed_count}, Denied: {denied_count}")
         if request_count == processed_count:
             logger.info("SUCCESS - All requests were processed")
         else:
             logger.warning(f"WARNING - {denied_count} request(s) were denied")
+            logger.warning(f"denied_entries: {denied_entries}")
 
     def __str__(self) -> str:
         fullname = f"{self.__class__.__module__}.{self.__class__.__name__}"

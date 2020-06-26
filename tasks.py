@@ -127,14 +127,6 @@ def reset_circrequests(c):
     if last_successful_lookup and os.path.exists(last_successful_lookup) and os.path.isfile(last_successful_lookup):
         os.remove(last_successful_lookup)
 
-    denied_keys = os.getenv("CIRCREQUESTS_DENIED_KEYS") or ""
-    if not denied_keys:
-        print("Aborting. CIRCREQUESTS_DENIED_KEYS is not set.")
-        exit(1)
-
-    if denied_keys and os.path.exists(denied_keys) and os.path.isfile(denied_keys):
-        os.remove(denied_keys)
-
 
 @task
 def reset_items(c):
