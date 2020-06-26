@@ -7,8 +7,7 @@ def test_create_dest_request():
     config = {
         'last_success_filepath': 'tests/resources/circrequests/valid_src_response_with_no_entries.json',
         'storage_dir': '/tmp',
-        'last_success_lookup': 'tests/storage/circrequests/circrequests_last_success.txt',
-        'denied_keys_filepath': 'tests/storage/circrequests/circrequests_denied_keys.json'
+        'last_success_lookup': 'tests/storage/circrequests/circrequests_last_success.txt'
     }
 
     job_config = CircrequestsJobConfig(config, 'test')

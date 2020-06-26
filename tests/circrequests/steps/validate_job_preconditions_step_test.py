@@ -10,8 +10,7 @@ def test_validate_preconditions_returns_true_if_all_preconditions_are_met():
         'log_dir': '/tmp/',
         'storage_dir': '/tmp/',
         'last_success_lookup': 'tests/storage/circrequests/circrequests_last_success.txt',
-        'last_success_filepath': 'etc/circrequests_FIRST.json',
-        'denied_keys_filepath': 'tests/storage/circrequests/circrequests_denied_keys.json'
+        'last_success_filepath': 'etc/circrequests_FIRST.json'
     }
 
     job_config = CircrequestsJobConfig(config)
@@ -29,8 +28,7 @@ def test_validate_preconditions_returns_false_if_some_preconditions_are_not_met(
         'log_dir': '/tmp/',
         'storage_dir': '/tmp/',
         'last_success_lookup': 'tests/storage/circrequests/circrequests_last_success.txt',
-        'last_success_filepath': 'etc/circrequests_FIRST.json',
-        'denied_keys_filepath': 'tests/storage/circrequests/circrequests_denied_keys.json'
+        'last_success_filepath': 'etc/circrequests_FIRST.json'
     }
 
     job_config = CircrequestsJobConfig(config)

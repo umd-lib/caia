@@ -20,8 +20,7 @@ def test_valid_response_from_server(mock_server):
         config = {
             'source_url': f"{imposter.url}/holds",
             'storage_dir': '/tmp',
-            'last_success_lookup': 'tests/storage/circrequests/circrequests_last_success.txt',
-            'denied_keys_filepath': 'tests/storage/circrequests/circrequests_denied_keys.json'
+            'last_success_lookup': 'tests/storage/circrequests/circrequests_last_success.txt'
         }
         job_config = CircrequestsJobConfig(config, 'test')
 
@@ -43,8 +42,7 @@ def test_404_response_from_server(mock_server):
         config = {
             'source_url': f"{imposter.url}/holds",
             'storage_dir': '/tmp',
-            'last_success_lookup': 'tests/storage/circrequests/circrequests_last_success.txt',
-            'denied_keys_filepath': 'tests/storage/circrequests/circrequests_denied_keys.json'
+            'last_success_lookup': 'tests/storage/circrequests/circrequests_last_success.txt'
         }
         job_config = CircrequestsJobConfig(config, 'test')
 
@@ -62,8 +60,7 @@ def test_server_does_not_exist():
     config = {
         'source_url': "http://localhost:12345/URL_DOES_NOT_EXIST",
         'storage_dir': '/tmp',
-        'last_success_lookup': 'tests/storage/circrequests/circrequests_last_success.txt',
-        'denied_keys_filepath': 'tests/storage/circrequests/circrequests_denied_keys.json'
+        'last_success_lookup': 'tests/storage/circrequests/circrequests_last_success.txt'
     }
     job_config = CircrequestsJobConfig(config, 'test')
 

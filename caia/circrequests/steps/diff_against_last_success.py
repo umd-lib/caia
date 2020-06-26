@@ -43,18 +43,10 @@ class DiffAgainstLastSuccess(Step):
             source_response = json.load(fp)
             current = self.parse_source_response(source_response)
 
-        # Retrieve the list of denied keys
-        denied_keys_filepath = self.job_config['denied_keys_filepath']
-        with open(denied_keys_filepath) as fp:
-            denied_keys = json.load(fp)
-
-        if len(denied_keys):
-            logger.debug(f"{len(denied_keys)} found.")
-
         key_field = self.job_config.application_config['circrequests']['source_key_field']
 
         # Generate the diff result
-        diff_result = diff(key_field, last_success, current, denied_keys)
+        diff_result = diff(key_field, last_success, current)
 
         step_result = StepResult(True, diff_result)
         return step_result
