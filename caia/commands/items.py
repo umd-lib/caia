@@ -71,8 +71,7 @@ class Command(caia.core.command.Command):
             return CommandResult(step_result.was_successful(), step_result.get_errors())
 
         last_timestamp = step_result.get_result()
-        now = datetime.now()
-        current_timestamp = now.strftime("%Y%m%d%H%M%S")
+        end_time = None
         next_item = None
         iteration_count = 1
 
@@ -81,7 +80,7 @@ class Command(caia.core.command.Command):
             job_config.set_iteration(iteration_count)
 
             # Query source URL
-            step_result = run_step(QuerySourceUrl(job_config, last_timestamp, current_timestamp, next_item))
+            step_result = run_step(QuerySourceUrl(job_config, last_timestamp, end_time, next_item))
             write_to_file(job_config["source_response_body_filepath"], step_result.result)
             if not step_result.was_successful():
                 return CommandResult(step_result.was_successful(), step_result.get_errors())
@@ -97,6 +96,7 @@ class Command(caia.core.command.Command):
             new_item_count = len(source_items.get_new_items())
             updated_item_count = len(source_items.get_updated_items())
             next_item = source_items.get_next_item()
+            end_time = source_items.get_end_time()
 
             if new_item_count == 0:
                 logger.info("No new entries found, skipping CaiaSoft new items request.")
