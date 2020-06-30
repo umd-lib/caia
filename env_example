@@ -18,6 +18,13 @@ CIRCREQUESTS_STORAGE_DIR=storage/circrequests/
 # File containing the fully-qualified filepath of the "last success"
 CIRCREQUESTS_LAST_SUCCESS_LOOKUP=storage/circrequests/circrequests_last_success.txt
 
+# File containing the fully-qualified filepath of the "denied keys"
+CIRCREQUESTS_DENIED_KEYS=storage/circrequests/circrequests_denied_keys.json
+
+# The amount of time to wait (in seconds) before resubmitting a denied item
+# Default is 7 days
+CIRCREQUESTS_DENIED_ITEMS_WAIT_INTERVAL=604800
+
 #--- items properties
 # The URL to query for new/updated items
 ITEMS_SOURCE_URL=

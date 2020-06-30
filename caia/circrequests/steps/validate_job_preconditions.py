@@ -25,8 +25,11 @@ class ValidateJobPreconditions(Step):
         has_last_success_lookup = assertions.assert_file_exists(self.job_config, "last_success_lookup", self.errors)
         has_last_success_filepath = assertions.assert_file_exists(self.job_config, "last_success_filepath", self.errors)
 
+        has_denied_items_wait_interval = assertions.assert_is_non_negative_integer(
+            self.job_config, 'denied_items_wait_interval', self.errors)
+
         result = has_caiasoft_api_key and has_source_url and has_dest_url and has_storage_dir and \
-            has_last_success_lookup and has_last_success_filepath
+            has_last_success_lookup and has_last_success_filepath and has_denied_items_wait_interval
 
         step_result = StepResult(result, None, self.errors)
         return step_result

@@ -1,3 +1,4 @@
+import datetime
 import json
 import logging
 from typing import Any, Dict, List, cast
@@ -14,8 +15,9 @@ class DiffAgainstLastSuccess(Step):
     Diffs the source response against the last successful response, creating
     a list of new/modified/deleted entries
     """
-    def __init__(self, job_config: CircrequestsJobConfig):
+    def __init__(self, job_config: CircrequestsJobConfig, current_time: datetime.datetime):
         self.job_config = job_config
+        self.current_time = current_time
         self.errors: List[str] = []
 
     @staticmethod
@@ -43,14 +45,24 @@ class DiffAgainstLastSuccess(Step):
             source_response = json.load(fp)
             current = self.parse_source_response(source_response)
 
+        # Retrieve the list of denied keys
+        denied_keys_filepath = self.job_config['denied_keys_filepath']
+        with open(denied_keys_filepath) as fp:
+            denied_keys = json.load(fp)
+
+        if len(denied_keys):
+            logger.debug(f"{len(denied_keys)} found.")
+
         key_field = self.job_config.application_config['circrequests']['source_key_field']
 
         # Generate the diff result
-        diff_result = diff(key_field, last_success, current)
+        denied_items_wait_interval = int(self.job_config['denied_items_wait_interval'])
+        diff_result = diff(key_field, last_success, current, denied_keys,
+                           self.current_time, denied_items_wait_interval)
 
         step_result = StepResult(True, diff_result)
         return step_result
 
     def __str__(self) -> str:
         fullname = f"{self.__class__.__module__}.{self.__class__.__name__}"
-        return f"{fullname}@{id(self)}"
+        return f"{fullname}@{id(self)} [current_time={self.current_time}]"

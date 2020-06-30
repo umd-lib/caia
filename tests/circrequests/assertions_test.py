@@ -58,6 +58,42 @@ def test_assert_nonempty_value():
     assert "'nonexistent_key' is missing" in errors
 
 
+def test_assert_is_non_negative_integer():
+    config = {
+        # Allowed value
+        'key_with_integer_value': '1234',
+        'key_with_zero_value': '0',
+        # Disallowed values
+        'key_with_negative_integer_value': '-1234',
+        'key_with_none': None,
+        'key_with_empty_string': '',
+        'key_with_only_whitespace': '   \t  ',
+        'key_with_string_value': 'value',
+        'key_with_float_value': '1234.45',
+    }
+    job_config = JobConfig(config)
+
+    errors = []
+    assert assertions.assert_is_non_negative_integer(job_config, 'key_with_integer_value', errors) is True
+    assert len(errors) == 0
+    assert assertions.assert_is_non_negative_integer(job_config, 'key_with_zero_value', errors) is True
+    assert len(errors) == 0
+    assert assertions.assert_is_non_negative_integer(job_config, 'key_with_negative_integer_value', errors) is False
+    assert "'key_with_negative_integer_value' is not a non-negative integer." in errors
+    assert assertions.assert_is_non_negative_integer(job_config, 'key_with_float_value', errors) is False
+    assert "'key_with_float_value' is not a non-negative integer." in errors
+    assert assertions.assert_is_non_negative_integer(job_config, 'key_with_string_value', errors) is False
+    assert "'key_with_string_value' is not a non-negative integer." in errors
+    assert assertions.assert_is_non_negative_integer(job_config, 'key_with_none', errors) is False
+    assert "'key_with_none' has a value of None" in errors
+    assert assertions.assert_is_non_negative_integer(job_config, 'key_with_empty_string', errors) is False
+    assert "'key_with_empty_string' is not a non-negative integer." in errors
+    assert assertions.assert_is_non_negative_integer(job_config, 'key_with_only_whitespace', errors) is False
+    assert "'key_with_only_whitespace' is not a non-negative integer." in errors
+    assert assertions.assert_is_non_negative_integer(job_config, 'nonexistent_key', errors) is False
+    assert "'nonexistent_key' is missing" in errors
+
+
 def test_assert_directory_exists():
     config = {
         'dir_exists': '/tmp/',

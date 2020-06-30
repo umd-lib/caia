@@ -20,18 +20,24 @@ def clean_circrequests(c):
         print("Aborting. CIRCREQUESTS_STORAGE_DIR is not set.")
         exit(1)
 
+    files_to_skip = []
     # Figure out which JSON file (if any) is used by the last success lookup,
     # so we don't delete it.
-    item_last_success_lookup = os.getenv("CIRCREQUESTS_LAST_SUCCESS_LOOKUP")
+    circrequests_last_success_lookup = os.getenv("CIRCREQUESTS_LAST_SUCCESS_LOOKUP")
     last_success_filepath = None
-    if os.path.exists(item_last_success_lookup):
-        last_success_filepath = circrequests_get_last_success_filepath(item_last_success_lookup)
+    if os.path.exists(circrequests_last_success_lookup):
+        last_success_filepath = circrequests_get_last_success_filepath(circrequests_last_success_lookup)
+        files_to_skip.append(last_success_filepath)
+
+    denied_keys = os.getenv("CIRCREQUESTS_DENIED_KEYS")
+    if denied_keys and os.path.exists(denied_keys) and os.path.isfile(denied_keys):
+        files_to_skip.append(denied_keys)
 
     if circrequests_storage_dir and os.path.exists(circrequests_storage_dir):
         file_list = glob.glob(os.path.join(circrequests_storage_dir, '*.json'))
         for file_path in file_list:
-            # Skip the last_success_filepath
-            if last_success_filepath and file_path == last_success_filepath:
+            # Skip file if in files_to_skip
+            if file_path in files_to_skip:
                 continue
             try:
                 os.remove(file_path)
@@ -126,6 +132,14 @@ def reset_circrequests(c):
 
     if last_successful_lookup and os.path.exists(last_successful_lookup) and os.path.isfile(last_successful_lookup):
         os.remove(last_successful_lookup)
+
+    denied_keys = os.getenv("CIRCREQUESTS_DENIED_KEYS") or ""
+    if not denied_keys:
+        print("Aborting. CIRCREQUESTS_DENIED_KEYS is not set.")
+        exit(1)
+
+    if denied_keys and os.path.exists(denied_keys) and os.path.isfile(denied_keys):
+        os.remove(denied_keys)
 
 
 @task
