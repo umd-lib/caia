@@ -25,16 +25,24 @@ where <EJS_FILE> is the file containing the imposters to set up.
 The ".env" file of the "caia" application should then be configured with the
 URLs specified in the selected imposters configuration. 
 
-## Imposters configuration
+## Imposters configuration (EJS Files)
 
-### circrequests_success.ejs
+### mountebank/circrequests_success.ejs
 
 A successful "circrequests" session with one item.
 
 * CIRCREQUESTS_SOURCE_URL: http://localhost:4545/circrequests/source
 * CIRCREQUESTS_DEST_URL: http://localhost:6565/circrequests/dest
 
-### items_success.ejs
+### mountebank/circrequests_denied_keys.ejs
+
+A successful "circrequests" session with one denied item (barcode: 
+"denied_item") and one allowed item (barcode: "allowed_item").
+
+* CIRCREQUESTS_SOURCE_URL: http://localhost:4545/circrequests/source
+* CIRCREQUESTS_DEST_URL: http://localhost:6565/circrequests/dest
+
+### mountebank/items_success.ejs
 
 A successful "items" session with two new items and two updated items.
 
@@ -42,7 +50,7 @@ A successful "items" session with two new items and two updated items.
 * ITEMS_DEST_NEW_URL: http://localhost:6565/items/dest/incoming
 * ITEMS_DEST_UPDATES_URL: http://localhost:6565/items/dest/updates
 
-### items_success_multiple_iterations.ejs
+### mountebank/items_success_multiple_iterations.ejs
 
 A successful "items" session where a "nextitem" in the first response
 triggers a second iteration of queries to the source URL:

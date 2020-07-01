@@ -2,15 +2,15 @@
 
 Date: June 15, 2020
 
+## Status
+
+Superseded by [0008-aleph-circrequests-denied-entries-handling.md][1]
+
 ## Context
 
 For "circrequests", it is assumed that Aleph always provides a complete list
 of holds. A hold is considered valid as long as it is in the list provided by
 Aleph.
-
-## Status
-
-Superseded by [0008-aleph-circrequests-denied-entries-handling.md][1]
 
 ## Consequences
 

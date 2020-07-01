@@ -52,6 +52,26 @@ def assert_nonempty_value(job_config: JobConfig, key: str, errors: List[str]) ->
     return result
 
 
+def assert_is_non_negative_integer(job_config: JobConfig, key: str, errors: List[str]) -> bool:
+    """
+    Returns True if the given key has a value that is non-empty string
+    representing a non-negative integer value, False otherwise.
+    """
+    if not assert_key_exists(job_config, key, errors):
+        return False
+
+    if not assert_value_not_none(job_config, key, errors):
+        return False
+
+    value = job_config[key]
+
+    result = value.isdigit()
+    if not result:
+        errors.append(f"'{key}' is not a non-negative integer.")
+
+    return result
+
+
 def assert_directory_exists(job_config: JobConfig, key: str, errors: List[str]) -> bool:
     """
     Returns True if the directory at the given key exists, False otherwise.
