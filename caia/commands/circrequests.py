@@ -83,8 +83,8 @@ class Command(caia.core.command.Command):
         # Write diff result to a file
         write_to_file(job_config['diff_result_filepath'], json.dumps(diff_result.as_dict()))
 
-        if len(diff_result.new_entries) == 0:
-            logger.info("No new entries found, no CaiaSoft update required.")
+        if (len(diff_result.new_entries) == 0) and (len(diff_result.modified_entries) == 0):
+            logger.info("No new or modified entries found, no CaiaSoft update required.")
             # No new entries, so nothing to send to CaiaSoft
             # Record job as successful
             step_result = run_step(UpdateLastSuccess(job_config))

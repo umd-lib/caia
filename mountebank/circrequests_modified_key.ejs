@@ -1,0 +1,47 @@
+{
+  "imposters": [
+    {
+      "port": 4545,
+      "protocol": "http",
+      "stubs": [{
+        "responses": [
+          { "is": { "statusCode": 200,
+                    "body": "<%- stringify('responses/circrequests_valid_src_modified_body1.json') %>"
+            }
+          },
+          { "is": { "statusCode": 200,
+                    "body": "<%- stringify('responses/circrequests_valid_src_modified_body2.json') %>"
+            }
+          }
+        ],
+        "predicates": [
+            {
+              "equals": {
+                "path": "/circrequests/source",
+                "method": "GET",
+                "headers": { "Content-Type": "application/json" }
+              }
+            }]
+      }]
+    },
+
+    {
+      "port": 6565,
+      "protocol": "http",
+      "stubs": [{
+        "responses": [
+          { "is": { "statusCode": 200,
+                    "body": "<%- stringify('responses/circrequests_success_dest_body.ejs') %>"
+          }}],
+        "predicates": [
+            {
+              "equals": {
+                "path": "/circrequests/dest",
+                "method": "POST",
+                "headers": { "Content-Type": "application/json" }
+              }
+            }]
+      }]
+    }
+  ]
+}
