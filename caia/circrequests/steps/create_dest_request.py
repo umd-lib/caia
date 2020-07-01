@@ -55,6 +55,11 @@ class CreateDestRequest(Step):
             post_entry = CreateDestRequest.dest_post_entry(request_id, entry, source_key_field)
             requests.append(post_entry)
 
+        for entry in diff_result.modified_entries:
+            request_id = None
+            post_entry = CreateDestRequest.dest_post_entry(request_id, entry, source_key_field)
+            requests.append(post_entry)
+
         request_body = {"requests": requests}
         json_str = json.dumps(request_body)
         return json_str
