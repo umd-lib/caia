@@ -7,22 +7,25 @@ from caia.items.source_items import SourceItems
 
 logger = logging.getLogger(__name__)
 
+# CaiaSoft value for indicating that field contents should be cleared
+CAIASOFT_CLEAR_FIELD_SENTINEL_VALUE = "CLEARFIELD*"
 
-def parse_item(item_from_source: Dict[str, str], suppress_null_values: bool) -> Dict[str, str]:
+
+def parse_item(item_from_source: Dict[str, str], convert_null_values: bool) -> Dict[str, str]:
     """
     Converts source map into a destination map, sending all fields in the source
     to the destination.
 
-    If "suppress_nulls" is True, any keys with null values will _not_ be
-    sent in the destination request.
+    If "convert_null_values" is True, any keys with null values will be replaced
+    by CAIASOFT_CLEAR_FIELD_SENTINEL_VALUE in the destination request.
     """
     item_map = {}
     for source_key in item_from_source:
         source_value = item_from_source[source_key]
-        if suppress_null_values and source_value is None:
-            continue
+        if convert_null_values and source_value is None:
+            source_value = CAIASOFT_CLEAR_FIELD_SENTINEL_VALUE
 
-        item_map[source_key] = item_from_source[source_key]
+        item_map[source_key] = source_value
 
     return item_map
 
@@ -40,6 +43,7 @@ class CreateDestNewItemsRequest(Step):
 
         new_items = self.source_items.get_new_items()
         for item in new_items:
+            # Null values should be preserved for new items
             items_array.append(parse_item(item, False))
 
         request_body = {"incoming": items_array}
@@ -66,7 +70,8 @@ class CreateDestUpdatedItemsRequest(Step):
 
         new_items = self.source_items.get_updated_items()
         for item in new_items:
-            items_array.append(parse_item(item, False))
+            # Null values should be converted for updated items
+            items_array.append(parse_item(item, True))
 
         request_body = {"items": items_array}
         json_str = json.dumps(request_body)
