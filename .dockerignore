@@ -5,12 +5,17 @@
 logs/*
 !logs/.keep
 
-# Working storage directory, except for storage/circrequests/README.md
+# Working storage directory, except for storage/circrequests/README.md and
+# storage/items/README.md
 storage/*
 !storage/circrequests
+!storage/items
 
 storage/circrequests/*
 !storage/circrequests/README.md
+
+storage/items/*
+!storage/items/README.md
 
 # Test storage directory, except for storage/circrequests/README.md
 tests/storage/*
