@@ -1,0 +1,6 @@
+---
+# circrequests-specific configuration
+circrequests: {
+  # The field in the Aleph response that uniquely identifies a record.
+  source_key_field: barcode
+}
