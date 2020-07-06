@@ -18,7 +18,7 @@ def test_get_last_timestamp_default_timestamp():
     assert step_result.was_successful() is True
 
     last_timestamp = step_result.get_result()
-    assert "20200601" == last_timestamp
+    assert "202007021300" == last_timestamp
 
 
 def test_get_last_timestamp_no_timestamp_in_file():
