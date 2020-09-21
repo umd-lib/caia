@@ -176,7 +176,7 @@ def test_src_returns_404_error(mock_server):
     with open("tests/resources/items/valid_dest_new_items_response.json") as file:
         valid_dest_new_items_response = file.read()
 
-    with open("tests/resources/items/valid_dest_new_items_response.json") as file:
+    with open("tests/resources/items/valid_dest_updated_items_response.json") as file:
         valid_dest_updated_items_response = file.read()
 
     # Set up mock server with required behavior
