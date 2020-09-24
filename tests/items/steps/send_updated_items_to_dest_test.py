@@ -1,3 +1,5 @@
+import os
+import tempfile
 from hamcrest import assert_that
 from mbtest.imposters import Imposter, Predicate, Response, Stub
 from mbtest.matchers import had_request
@@ -26,9 +28,14 @@ def test_send_updated_items_to_dest_valid_response(mock_server):
         job_config["dest_updated_items_request_body_filepath"] = \
             "tests/resources/items/valid_dest_updated_items_request.json"
 
-        send_new_items_to_dest = SendUpdatedItemsToDest(job_config)
-        step_result = send_new_items_to_dest.execute()
+        with tempfile.TemporaryDirectory() as temp_storage_dir:
+            job_config["dest_updated_items_response_body_filepath"] = \
+                temp_storage_dir + "/dest_updated_items_response.json"
 
-        assert step_result.was_successful() is True
-        assert_that(server, had_request().with_path("/items/updates").and_method("POST"))
-        assert valid_dest_response == step_result.get_result()
+            send_updated_items_to_dest = SendUpdatedItemsToDest(job_config)
+            step_result = send_updated_items_to_dest.execute()
+
+            assert step_result.was_successful() is True
+            assert os.path.exists(job_config["dest_updated_items_response_body_filepath"])
+            assert_that(server, had_request().with_path("/items/updates").and_method("POST"))
+            assert valid_dest_response == step_result.get_result()

@@ -253,7 +253,57 @@ def test_dest_returns_404_error(mock_server):
         os.close(temp_file_handle)
         os.remove(temp_success_filename)
 
-def test_dest_returns_unparseable_json_response(mock_server):
+
+def test_dest_returns_unparseable_json_response_for_new_items(mock_server):
+    with open("tests/resources/items/valid_src_response.json") as file:
+        valid_src_response = file.read()
+
+    with open("tests/resources/items/unparseable_json_dest_response.json") as file:
+        unparseable_json_dest_response = file.read()
+
+    # Set up mock server with required behavior
+    imposter = Imposter([
+        Stub(Predicate(path="/src"), Response(body=valid_src_response)),
+        Stub(Predicate(path="/dest/new", method="POST"), Response(body=unparseable_json_dest_response)),
+        ])
+
+    # Create a temporary file to use as last success lookup
+    try:
+        [temp_file_handle, temp_success_filename] = tempfile.mkstemp()
+        with open(temp_success_filename, 'w') as f:
+            f.write('etc/items_FIRST.json')
+
+        with tempfile.TemporaryDirectory() as temp_storage_dir, mock_server(imposter) as server:
+            setup_environment(imposter, temp_storage_dir, temp_success_filename)
+
+            start_time = '20200521132905'
+            args = []
+
+            with pytest.raises(JSONDecodeError):
+                command = Command()
+                result = command(start_time, args)
+                assert result.was_successful() is False
+
+            files_in_storage_dir = [f for f in listdir(temp_storage_dir) if isfile(join(temp_storage_dir, f))]
+            expected_file_regex = re.compile('.*\\.dest_new_items_response_body\\..*')
+
+            # There should be a "dest_updated_response_body" file, even
+            # though the JSON was unparseable
+            if not any(expected_file_regex.match(x) for x in files_in_storage_dir):
+                pytest.fail(f"Expected file matching '#{expected_file_regex.pattern}' was not found.")
+
+            # There should have been two requests to the server, as the updated
+            # items call will not occur
+            assert 2 == len(server.get_actual_requests()[imposter.port])
+            assert_that(server, had_request().with_path("/src").and_method("GET"))
+            assert_that(server, had_request().with_path("/dest/new").and_method("POST"))
+    finally:
+        # Clean up the temporary file
+        os.close(temp_file_handle)
+        os.remove(temp_success_filename)
+
+
+def test_dest_returns_unparseable_json_response_for_updated_items(mock_server):
     with open("tests/resources/items/valid_src_response.json") as file:
         valid_src_response = file.read()
 
@@ -288,7 +338,7 @@ def test_dest_returns_unparseable_json_response(mock_server):
                 assert result.was_successful() is False
 
             files_in_storage_dir = [f for f in listdir(temp_storage_dir) if isfile(join(temp_storage_dir, f))]
-            expected_file_regex =re.compile('.*\\.dest_updated_items_response_body\\..*')
+            expected_file_regex = re.compile('.*\\.dest_updated_items_response_body\\..*')
 
             # There should be a "dest_updated_response_body" file, even
             # though the JSON was unparseable

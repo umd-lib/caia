@@ -403,7 +403,7 @@ def test_dest_returns_unparseable_json_response(mock_server):
                 assert result.was_successful() is False
 
             files_in_storage_dir = [f for f in listdir(temp_storage_dir) if isfile(join(temp_storage_dir, f))]
-            expected_file_regex =re.compile('.*\\.dest_response_body\\..*')
+            expected_file_regex = re.compile('.*\\.dest_response_body\\..*')
 
             # There should be a "dest_circrequests_response_body" file, even
             # though the JSON was unparseable
@@ -411,7 +411,7 @@ def test_dest_returns_unparseable_json_response(mock_server):
                 pytest.fail(f"Expected file matching '#{expected_file_regex.pattern}' was not found.")
 
             # There should have been three requests to the server
-            assert 3 == len(server.get_actual_requests()[imposter.port])
+            assert 2 == len(server.get_actual_requests()[imposter.port])
             assert_that(server, had_request().with_path("/src").and_method("GET"))
             assert_that(server, had_request().with_path("/dest").and_method("POST"))
     finally:
