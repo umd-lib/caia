@@ -45,7 +45,7 @@ class SendNewItemsToDest(Step):
         rejects = response["rejects"]
 
         logger.info(f"New items request: Total: {incoming_count}, Rejected: {rejected_count}, reject: {rejects}")
-        if rejects == 0:
+        if rejected_count == 0:
             logger.info("SUCCESS - All new items were processed")
         else:
             logger.warning(f"WARNING - {rejected_count} new items(s) were rejected")
