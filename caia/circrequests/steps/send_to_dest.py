@@ -4,6 +4,7 @@ from typing import List
 
 from caia.circrequests.circrequests_job_config import CircrequestsJobConfig
 from caia.core.http import http_post_request
+from caia.core.io import write_to_file
 from caia.core.step import Step, StepResult
 
 logger = logging.getLogger(__name__)
@@ -27,6 +28,10 @@ class SendToDest(Step):
         dest_url = self.job_config['dest_url']
 
         step_result = http_post_request(dest_url, headers, body_str)
+
+        # Write dest response body to a file
+        dest_response_body = step_result.get_result()
+        write_to_file(self.job_config['dest_response_body_filepath'], dest_response_body)
 
         if step_result.was_successful():
             SendToDest.log_response(step_result.get_result())
