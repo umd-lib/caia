@@ -101,14 +101,11 @@ class Command(caia.core.command.Command):
         # Send POST data to destination
         step_result = run_step(SendToDest(job_config))
 
-        # Write dest response body to a file
-        dest_response_body = step_result.get_result()
-        write_to_file(job_config['dest_response_body_filepath'], dest_response_body)
-
         if not step_result.was_successful():
             return CommandResult(step_result.was_successful(), step_result.get_errors())
 
         # Record denied keys (if any)
+        dest_response_body = step_result.get_result()
         step_result = run_step(RecordDeniedKeys(job_config, dest_response_body, current_time,
                                                 diff_result))
 

@@ -2,6 +2,7 @@ import json
 import logging
 from typing import List
 
+from caia.core.io import write_to_file
 from caia.core.http import http_post_request
 from caia.core.step import Step, StepResult
 from caia.items.items_job_config import ItemsJobConfig
@@ -27,6 +28,9 @@ class SendUpdatedItemsToDest(Step):
         dest_url = self.job_config["dest_updates_url"]
 
         step_result = http_post_request(dest_url, headers, body_str)
+
+        # Write updated items dest response body to a file
+        write_to_file(self.job_config['dest_updated_items_response_body_filepath'], step_result.get_result())
 
         if step_result.was_successful():
             SendUpdatedItemsToDest.log_response(step_result.get_result())

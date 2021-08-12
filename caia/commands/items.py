@@ -1,7 +1,6 @@
 import argparse
 import logging
 import os
-from datetime import datetime
 
 import caia.core.command
 from caia.core.command import CommandResult
@@ -116,12 +115,6 @@ class Command(caia.core.command.Command):
                 if not step_result.was_successful():
                     return CommandResult(step_result.was_successful(), step_result.get_errors())
 
-                # Write new items dest response body to a file
-                write_to_file(job_config['dest_new_items_response_body_filepath'], step_result.get_result())
-
-                if not step_result.was_successful():
-                    return CommandResult(step_result.was_successful(), step_result.get_errors())
-
             if updated_item_count == 0:
                 logger.info("No updated entries found, skipping CaiaSoft updated items request.")
             else:
@@ -139,9 +132,6 @@ class Command(caia.core.command.Command):
 
                 if not step_result.was_successful():
                     return CommandResult(step_result.was_successful(), step_result.get_errors())
-
-                # Write updated items dest response body to a file
-                write_to_file(job_config['dest_updated_items_response_body_filepath'], step_result.get_result())
 
                 if not step_result.was_successful():
                     return CommandResult(step_result.was_successful(), step_result.get_errors())
