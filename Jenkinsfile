@@ -105,7 +105,7 @@ pipeline {
     stage('test') {
       steps {
         sh '''
-          npm install mountebank --production
+          npm install mountebank@2.2.0 --production
 
           # Install pytest
           pip install pytest
