@@ -105,7 +105,7 @@ pipeline {
     stage('test') {
       steps {
         sh '''
-          npm install mountebank --production
+          npm install mountebank@2.2.0 --production
 
           # Install pytest
           pip install pytest
@@ -117,7 +117,7 @@ pipeline {
         always {
           junit '**/reports/results.xml'
 
-          cobertura autoUpdateHealth: false, autoUpdateStability: false, coberturaReportFile: 'reports/coverage.xml', failUnhealthy: false, failUnstable: false, maxNumberOfBuilds: 0, onlyStable: false, zoomCoverageChart: false
+          recordCoverage(tools: [[parser: 'COBERTURA', pattern: 'reports/coverage.xml']])
         }
       }
     }
@@ -139,7 +139,9 @@ pipeline {
       post {
         always {
           // Collect pycodestyle reports
-          recordIssues(tools: [pyLint(reportEncoding: 'UTF-8', name: 'pycodestyle')], unstableTotalAll: 1)
+          recordIssues(tools: [pyLint(reportEncoding: 'UTF-8', name: 'pycodestyle')],
+                       qualityGates: [[threshold: 1, type: 'TOTAL', criticality: 'UNSTABLE']]
+          )
         }
       }
     }
